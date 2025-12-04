@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>专业摄影师批量水印工具———音乐杀手制作</title>
+    <title> 专业摄影师批量水印工具———音乐杀手制作 </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -1356,7 +1356,7 @@
 </head>
 <body>
     <header>
-        <h1><i class="fas fa-camera"></i> 专业摄影师批量水印工具———音乐杀手制作 </h1>
+        <h1><i class="fas fa-camera"></i>  专业摄影师批量水印工具———音乐杀手制作  </h1>
         <p class="subtitle">批量添加水印 | 位置可调 | 横竖图独立设置 | 保留原始画质</p>
     </header>
     
@@ -1588,10 +1588,10 @@
                     <div class="control-with-input">
                         <div class="slider-container">
                             <label class="control-label">垂直位置</label>
-                            <input type="range" id="hPositionY" min="0" max="100" value="94" step="0.5" disabled>
-                            <span class="slider-value"><span id="hYValue">94%</span></span>
+                            <input type="range" id="hPositionY" min="0" max="100" value="96" step="0.5" disabled>
+                            <span class="slider-value"><span id="hYValue">96%</span></span>
                         </div>
-                        <input type="number" class="number-input" id="hPositionYInput" min="0" max="100" value="94" step="0.5" disabled>
+                        <input type="number" class="number-input" id="hPositionYInput" min="0" max="100" value="96" step="0.5" disabled>
                     </div>
                 </div>
                 
@@ -1599,10 +1599,10 @@
                     <div class="control-with-input">
                         <div class="slider-container">
                             <label class="control-label">横图水印大小</label>
-                            <input type="range" id="horizontalWatermarkSize" min="1" max="100" value="22" step="0.5" disabled>
-                            <span class="slider-value" id="horizontalSizeValue">22%</span>
+                            <input type="range" id="horizontalWatermarkSize" min="1" max="100" value="11" step="0.5" disabled>
+                            <span class="slider-value" id="horizontalSizeValue">11%</span>
                         </div>
-                        <input type="number" class="number-input" id="horizontalWatermarkSizeInput" min="1" max="100" value="22" step="0.5" disabled>
+                        <input type="number" class="number-input" id="horizontalWatermarkSizeInput" min="1" max="100" value="11" step="0.5" disabled>
                     </div>
                 </div>
             </div>
@@ -1676,10 +1676,10 @@
                     <div class="control-with-input">
                         <div class="slider-container">
                             <label class="control-label">垂直位置</label>
-                            <input type="range" id="vPositionY" min="0" max="100" value="94" step="0.5" disabled>
-                            <span class="slider-value"><span id="vYValue">94%</span></span>
+                            <input type="range" id="vPositionY" min="0" max="100" value="96" step="0.5" disabled>
+                            <span class="slider-value"><span id="vYValue">96%</span></span>
                         </div>
-                        <input type="number" class="number-input" id="vPositionYInput" min="0" max="100" value="94" step="0.5" disabled>
+                        <input type="number" class="number-input" id="vPositionYInput" min="0" max="100" value="96" step="0.5" disabled>
                     </div>
                 </div>
                 
@@ -1687,10 +1687,10 @@
                     <div class="control-with-input">
                         <div class="slider-container">
                             <label class="control-label">竖图水印大小</label>
-                            <input type="range" id="verticalWatermarkSize" min="1" max="100" value="45" step="0.5" disabled>
-                            <span class="slider-value" id="verticalSizeValue">45%</span>
+                            <input type="range" id="verticalWatermarkSize" min="1" max="100" value="25" step="0.5" disabled>
+                            <span class="slider-value" id="verticalSizeValue">25%</span>
                         </div>
-                        <input type="number" class="number-input" id="verticalWatermarkSizeInput" min="1" max="100" value="45" step="0.5" disabled>
+                        <input type="number" class="number-input" id="verticalWatermarkSizeInput" min="1" max="100" value="25" step="0.5" disabled>
                     </div>
                 </div>
             </div>
@@ -1837,8 +1837,8 @@
         let watermarkOriginalFile = null;
         let folderName = "加水印";
         
-        let horizontalPosition = { x: 50, y: 94 };
-        let verticalPosition = { x: 50, y: 94 };
+        let horizontalPosition = { x: 50, y: 96 };  // 修改：从94改为96
+        let verticalPosition = { x: 50, y: 96 };    // 修改：从94改为96
         
         let horizontalZoom = 100;
         let verticalZoom = 100;
@@ -1859,14 +1859,14 @@
         
         // 水印设置
         let settings = {
-            horizontalWatermarkSize: 22,
+            horizontalWatermarkSize: 11,  // 修改：从22改为11
             horizontalWatermarkOpacity: 1.0,
             horizontalWatermarkBrightness: 100,
             horizontalWatermarkContrast: 100,
             horizontalWatermarkSaturation: 100,
             horizontalWatermarkExposure: 100,
             
-            verticalWatermarkSize: 45,
+            verticalWatermarkSize: 25,  // 修改：从45改为25
             verticalWatermarkOpacity: 1.0,
             verticalWatermarkBrightness: 100,
             verticalWatermarkContrast: 100,
@@ -2047,7 +2047,7 @@
                 settings.horizontalWatermarkSize = parseFloat(value);
                 updatePreviews();
                 updatePositionSliderRanges(); // 更新滑块范围
-            }, 22);
+            }, 11);  // 修改：默认值从22改为11
             
             // 横图水印透明度控制
             setupSliderWithInput('horizontalWatermarkOpacity', 'horizontalWatermarkOpacityInput', 'horizontalOpacityValue', (value) => {
@@ -2064,14 +2064,14 @@
             setupSliderWithInput('hPositionY', 'hPositionYInput', 'hYValue', (value) => {
                 horizontalPosition.y = parseFloat(value);
                 updatePreviews();
-            }, 94);
+            }, 96);  // 修改：默认值从94改为96
             
             // 竖图水印大小控制
             setupSliderWithInput('verticalWatermarkSize', 'verticalWatermarkSizeInput', 'verticalSizeValue', (value) => {
                 settings.verticalWatermarkSize = parseFloat(value);
                 updatePreviews();
                 updatePositionSliderRanges(); // 更新滑块范围
-            }, 45);
+            }, 25);  // 修改：默认值从45改为25
             
             // 竖图水印透明度控制
             setupSliderWithInput('verticalWatermarkOpacity', 'verticalWatermarkOpacityInput', 'verticalOpacityValue', (value) => {
@@ -2088,7 +2088,7 @@
             setupSliderWithInput('vPositionY', 'vPositionYInput', 'vYValue', (value) => {
                 verticalPosition.y = parseFloat(value);
                 updatePreviews();
-            }, 94);
+            }, 96);  // 修改：默认值从94改为96
             
             // 单独照片设置控制
             setupSliderWithInput('singleWatermarkOpacity', 'singleWatermarkOpacityInput', 'singleOpacityValue', (value) => {
@@ -2131,19 +2131,19 @@
                 document.getElementById('borderOn').classList.remove('active');
                 document.getElementById('borderSettings').style.display = 'none';
                 
-                // 修复：当用户关闭边框时，将垂直位置重置为默认值
-                horizontalPosition.y = 94;
-                verticalPosition.y = 94;
+                // 修复：当用户关闭边框时，将垂直位置重置为默认值96
+                horizontalPosition.y = 96;  // 修改：从94改为96
+                verticalPosition.y = 96;    // 修改：从94改为96
                 
                 // 更新横图垂直位置滑块和输入框
-                document.getElementById('hPositionY').value = 94;
-                document.getElementById('hPositionYInput').value = 94;
-                document.getElementById('hYValue').textContent = '94%';
+                document.getElementById('hPositionY').value = 96;  // 修改：从94改为96
+                document.getElementById('hPositionYInput').value = 96;  // 修改：从94改为96
+                document.getElementById('hYValue').textContent = '96%';  // 修改：从94%改为96%
                 
                 // 更新竖图垂直位置滑块和输入框
-                document.getElementById('vPositionY').value = 94;
-                document.getElementById('vPositionYInput').value = 94;
-                document.getElementById('vYValue').textContent = '94%';
+                document.getElementById('vPositionY').value = 96;  // 修改：从94改为96
+                document.getElementById('vPositionYInput').value = 96;  // 修改：从94改为96
+                document.getElementById('vYValue').textContent = '96%';  // 修改：从94%改为96%
                 
                 updatePreviews();
                 updateSingleWatermarkPreview();
@@ -2236,9 +2236,9 @@
                 {id: 'hMiddleLeft', x: 5, y: 50},
                 {id: 'hCenter', x: 50, y: 50},
                 {id: 'hMiddleRight', x: 95, y: 50},
-                {id: 'hBottomLeft', x: 5, y: 94},
-                {id: 'hBottomCenter', x: 50, y: 94},
-                {id: 'hBottomRight', x: 95, y: 94}
+                {id: 'hBottomLeft', x: 5, y: 96},  // 修改：从94改为96
+                {id: 'hBottomCenter', x: 50, y: 96},  // 修改：从94改为96
+                {id: 'hBottomRight', x: 95, y: 96}   // 修改：从94改为96
             ];
             
             hPositionButtons.forEach(btn => {
@@ -2262,9 +2262,9 @@
                 {id: 'vMiddleLeft', x: 5, y: 50},
                 {id: 'vCenter', x: 50, y: 50},
                 {id: 'vMiddleRight', x: 95, y: 50},
-                {id: 'vBottomLeft', x: 5, y: 94},
-                {id: 'vBottomCenter', x: 50, y: 94},
-                {id: 'vBottomRight', x: 95, y: 94}
+                {id: 'vBottomLeft', x: 5, y: 96},  // 修改：从94改为96
+                {id: 'vBottomCenter', x: 50, y: 96},  // 修改：从94改为96
+                {id: 'vBottomRight', x: 95, y: 96}   // 修改：从94改为96
             ];
             
             vPositionButtons.forEach(btn => {
@@ -2286,9 +2286,6 @@
                 if (!isNaN(index) && photos[index]) {
                     currentHorizontalImage = photos[index];
                     horizontalTransform = { x: 0, y: 0, scale: 1 };
-                    horizontalZoom = 100;
-                    document.getElementById('horizontalZoom').value = 100;
-                    document.getElementById('horizontalZoomValue').textContent = '100%';
                     applyPreviewTransform('horizontal');
                     updatePreviews();
                     updatePositionSliderRanges(); // 修复：更新位置滑块范围
@@ -2300,9 +2297,6 @@
                 if (!isNaN(index) && photos[index]) {
                     currentVerticalImage = photos[index];
                     verticalTransform = { x: 0, y: 0, scale: 1 };
-                    verticalZoom = 100;
-                    document.getElementById('verticalZoom').value = 100;
-                    document.getElementById('verticalZoomValue').textContent = '100%';
                     applyPreviewTransform('vertical');
                     updatePreviews();
                     updatePositionSliderRanges(); // 修复：更新位置滑块范围
@@ -3790,7 +3784,7 @@
             }
         }
         
-        // 处理所有图片并打包下载 - 修复：根据边框设置计算水印位置
+        // 处理所有图片并打包下载 - 修复：根据边框设置计算水印位置，使用原照片分辨率
         async function processImages() {
             if (photos.length === 0 || !watermarkImage) {
                 alert('请先选择照片和水印图片');
@@ -3825,6 +3819,7 @@
                 try {
                     let canvas, ctx;
                     
+                    // 修改：使用原照片分辨率，如果用户加了边框，则最终文件分辨率为原照片分辨率加上四边的边框
                     if (settings.border.enabled) {
                         const borderedWidth = photo.width + settings.border.left + settings.border.right;
                         const borderedHeight = photo.height + settings.border.top + settings.border.bottom;
@@ -3857,6 +3852,7 @@
                         ctx.drawImage(photo.img, settings.border.left, settings.border.top, photo.width, photo.height);
                         ctx.restore();
                     } else {
+                        // 没有边框时，直接使用原照片分辨率
                         canvas = document.createElement('canvas');
                         canvas.width = photo.width;
                         canvas.height = photo.height;
