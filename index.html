@@ -393,6 +393,9 @@
             max-height: 100%;
             display: block;
             cursor: grab;
+            /* 提高画布渲染质量 */
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
         }
         
         canvas.dragging {
@@ -1457,9 +1460,9 @@
                             <div class="border-radius-short-container">
                                 <div class="border-radius-short-slider">
                                     <label class="control-label">照片圆角</label>
-                                    <input type="range" id="borderRadius" min="0" max="500" value="50" step="1">
-                                    <span class="slider-value" id="radiusValue">50</span>
-                                    <input type="number" class="number-input" id="borderRadiusInput" min="0" max="500" value="50" step="1" style="width: 60px;">
+                                    <input type="range" id="borderRadius" min="0" max="500" value="80" step="1">
+                                    <span class="slider-value" id="radiusValue">80</span>
+                                    <input type="number" class="number-input" id="borderRadiusInput" min="0" max="500" value="80" step="1" style="width: 60px;">
                                 </div>
                             </div>
                         </div>
@@ -1537,7 +1540,7 @@
                 
                 <div class="preview-zoom-control">
                     <span>预览缩放:</span>
-                    <input type="range" id="horizontalZoom" min="50" max="300" value="100" step="5" disabled>
+                    <input type="range" id="horizontalZoom" min="50" max="500" value="100" step="5" disabled>
                     <span class="zoom-value" id="horizontalZoomValue">100%</span>
                 </div>
                 
@@ -1625,7 +1628,7 @@
                 
                 <div class="preview-zoom-control">
                     <span>预览缩放:</span>
-                    <input type="range" id="verticalZoom" min="50" max="300" value="100" step="5" disabled>
+                    <input type="range" id="verticalZoom" min="50" max="500" value="100" step="5" disabled>
                     <span class="zoom-value" id="verticalZoomValue">100%</span>
                 </div>
                 
@@ -1837,8 +1840,8 @@
         let watermarkOriginalFile = null;
         let folderName = "加水印";
         
-        let horizontalPosition = { x: 50, y: 96 };  // 修改：从94改为96
-        let verticalPosition = { x: 50, y: 96 };    // 修改：从94改为96
+        let horizontalPosition = { x: 50, y: 96 };
+        let verticalPosition = { x: 50, y: 96 };
         
         let horizontalZoom = 100;
         let verticalZoom = 100;
@@ -1859,14 +1862,14 @@
         
         // 水印设置
         let settings = {
-            horizontalWatermarkSize: 11,  // 修改：从22改为11
+            horizontalWatermarkSize: 11,
             horizontalWatermarkOpacity: 1.0,
             horizontalWatermarkBrightness: 100,
             horizontalWatermarkContrast: 100,
             horizontalWatermarkSaturation: 100,
             horizontalWatermarkExposure: 100,
             
-            verticalWatermarkSize: 25,  // 修改：从45改为25
+            verticalWatermarkSize: 25,
             verticalWatermarkOpacity: 1.0,
             verticalWatermarkBrightness: 100,
             verticalWatermarkContrast: 100,
@@ -1882,7 +1885,7 @@
             border: {
                 enabled: false,
                 color: 'black',
-                borderRadius: 50,
+                borderRadius: 80, // 修改：圆角默认值从50改为80
                 top: 100,
                 bottom: 100,
                 left: 100,
@@ -2047,7 +2050,7 @@
                 settings.horizontalWatermarkSize = parseFloat(value);
                 updatePreviews();
                 updatePositionSliderRanges(); // 更新滑块范围
-            }, 11);  // 修改：默认值从22改为11
+            }, 11);
             
             // 横图水印透明度控制
             setupSliderWithInput('horizontalWatermarkOpacity', 'horizontalWatermarkOpacityInput', 'horizontalOpacityValue', (value) => {
@@ -2064,14 +2067,14 @@
             setupSliderWithInput('hPositionY', 'hPositionYInput', 'hYValue', (value) => {
                 horizontalPosition.y = parseFloat(value);
                 updatePreviews();
-            }, 96);  // 修改：默认值从94改为96
+            }, 96);
             
             // 竖图水印大小控制
             setupSliderWithInput('verticalWatermarkSize', 'verticalWatermarkSizeInput', 'verticalSizeValue', (value) => {
                 settings.verticalWatermarkSize = parseFloat(value);
                 updatePreviews();
                 updatePositionSliderRanges(); // 更新滑块范围
-            }, 25);  // 修改：默认值从45改为25
+            }, 25);
             
             // 竖图水印透明度控制
             setupSliderWithInput('verticalWatermarkOpacity', 'verticalWatermarkOpacityInput', 'verticalOpacityValue', (value) => {
@@ -2088,7 +2091,7 @@
             setupSliderWithInput('vPositionY', 'vPositionYInput', 'vYValue', (value) => {
                 verticalPosition.y = parseFloat(value);
                 updatePreviews();
-            }, 96);  // 修改：默认值从94改为96
+            }, 96);
             
             // 单独照片设置控制
             setupSliderWithInput('singleWatermarkOpacity', 'singleWatermarkOpacityInput', 'singleOpacityValue', (value) => {
@@ -2131,19 +2134,19 @@
                 document.getElementById('borderOn').classList.remove('active');
                 document.getElementById('borderSettings').style.display = 'none';
                 
-                // 修复：当用户关闭边框时，将垂直位置重置为默认值96
-                horizontalPosition.y = 96;  // 修改：从94改为96
-                verticalPosition.y = 96;    // 修改：从94改为96
+                // 修改：当用户取消边框时，将垂直位置恢复为默认值96
+                horizontalPosition.y = 96;
+                verticalPosition.y = 96;
                 
                 // 更新横图垂直位置滑块和输入框
-                document.getElementById('hPositionY').value = 96;  // 修改：从94改为96
-                document.getElementById('hPositionYInput').value = 96;  // 修改：从94改为96
-                document.getElementById('hYValue').textContent = '96%';  // 修改：从94%改为96%
+                document.getElementById('hPositionY').value = 96;
+                document.getElementById('hPositionYInput').value = 96;
+                document.getElementById('hYValue').textContent = '96%';
                 
                 // 更新竖图垂直位置滑块和输入框
-                document.getElementById('vPositionY').value = 96;  // 修改：从94改为96
-                document.getElementById('vPositionYInput').value = 96;  // 修改：从94改为96
-                document.getElementById('vYValue').textContent = '96%';  // 修改：从94%改为96%
+                document.getElementById('vPositionY').value = 96;
+                document.getElementById('vPositionYInput').value = 96;
+                document.getElementById('vYValue').textContent = '96%';
                 
                 updatePreviews();
                 updateSingleWatermarkPreview();
@@ -2156,19 +2159,19 @@
                 document.getElementById('borderOn').classList.add('active');
                 document.getElementById('borderSettings').style.display = 'block';
                 
-                // 修复：当用户选择使用边框后，将横图预览中的垂直位置默认值改为90.5，竖图预览中的垂直位置默认值改为92
-                horizontalPosition.y = 90.5;
-                verticalPosition.y = 92;
+                // 修改：当用户选择使用边框后，将横图预览中的垂直位置默认值改为94.5，竖图预览中的垂直位置默认值改为95
+                horizontalPosition.y = 94.5;
+                verticalPosition.y = 95;
                 
                 // 更新横图垂直位置滑块和输入框
-                document.getElementById('hPositionY').value = 90.5;
-                document.getElementById('hPositionYInput').value = 90.5;
-                document.getElementById('hYValue').textContent = '90.5%';
+                document.getElementById('hPositionY').value = 94.5;
+                document.getElementById('hPositionYInput').value = 94.5;
+                document.getElementById('hYValue').textContent = '94.5%';
                 
                 // 更新竖图垂直位置滑块和输入框
-                document.getElementById('vPositionY').value = 92;
-                document.getElementById('vPositionYInput').value = 92;
-                document.getElementById('vYValue').textContent = '92%';
+                document.getElementById('vPositionY').value = 95;
+                document.getElementById('vPositionYInput').value = 95;
+                document.getElementById('vYValue').textContent = '95%';
                 
                 updatePreviews();
                 updateSingleWatermarkPreview();
@@ -2192,12 +2195,12 @@
                 updateSingleWatermarkPreview();
             });
             
-            // 边框圆角
+            // 边框圆角 - 修改：默认值从50改为80
             setupSliderWithInput('borderRadius', 'borderRadiusInput', 'radiusValue', (value) => {
                 settings.border.borderRadius = parseInt(value);
                 updatePreviews();
                 updateSingleWatermarkPreview();
-            }, 50);
+            }, 80);
             
             // 边框边距
             setupSliderWithInput('borderTop', 'borderTopInput', 'borderTopValue', (value) => {
@@ -2228,7 +2231,7 @@
                 updatePositionSliderRanges(); // 修复：更新位置滑块范围
             }, 100);
             
-            // 横图预设位置按钮
+            // 横图预设位置按钮 - 修改：底部按钮的y值从96改为对应的预设值
             const hPositionButtons = [
                 {id: 'hTopLeft', x: 5, y: 5},
                 {id: 'hTopCenter', x: 50, y: 5},
@@ -2236,9 +2239,9 @@
                 {id: 'hMiddleLeft', x: 5, y: 50},
                 {id: 'hCenter', x: 50, y: 50},
                 {id: 'hMiddleRight', x: 95, y: 50},
-                {id: 'hBottomLeft', x: 5, y: 96},  // 修改：从94改为96
-                {id: 'hBottomCenter', x: 50, y: 96},  // 修改：从94改为96
-                {id: 'hBottomRight', x: 95, y: 96}   // 修改：从94改为96
+                {id: 'hBottomLeft', x: 5, y: 96},
+                {id: 'hBottomCenter', x: 50, y: 96},
+                {id: 'hBottomRight', x: 95, y: 96}
             ];
             
             hPositionButtons.forEach(btn => {
@@ -2254,7 +2257,7 @@
                 });
             });
             
-            // 竖图预设位置按钮
+            // 竖图预设位置按钮 - 修改：底部按钮的y值从96改为对应的预设值
             const vPositionButtons = [
                 {id: 'vTopLeft', x: 5, y: 5},
                 {id: 'vTopCenter', x: 50, y: 5},
@@ -2262,9 +2265,9 @@
                 {id: 'vMiddleLeft', x: 5, y: 50},
                 {id: 'vCenter', x: 50, y: 50},
                 {id: 'vMiddleRight', x: 95, y: 50},
-                {id: 'vBottomLeft', x: 5, y: 96},  // 修改：从94改为96
-                {id: 'vBottomCenter', x: 50, y: 96},  // 修改：从94改为96
-                {id: 'vBottomRight', x: 95, y: 96}   // 修改：从94改为96
+                {id: 'vBottomLeft', x: 5, y: 96},
+                {id: 'vBottomCenter', x: 50, y: 96},
+                {id: 'vBottomRight', x: 95, y: 96}
             ];
             
             vPositionButtons.forEach(btn => {
@@ -3421,7 +3424,7 @@
             }
         }
         
-        // 更新预览 - 修复：现在会正确应用单独调节设置
+        // 更新预览 - 修复：现在会正确应用单独调节设置，并提高清晰度
         function updatePreviews() {
             if (currentHorizontalImage) {
                 drawPreview('horizontal', currentHorizontalImage);
@@ -3469,7 +3472,7 @@
             }
         }
         
-        // 更新单独水印预览 - 修复：现在会实时更新预览
+        // 更新单独水印预览 - 修复：现在会实时更新预览，并提高清晰度
         function updateSingleWatermarkPreview() {
             const canvas = document.getElementById('singlePreviewCanvas');
             const ctx = canvas.getContext('2d');
@@ -3478,8 +3481,14 @@
             const maxWidth = container.clientWidth;
             const maxHeight = container.clientHeight;
             
-            canvas.width = maxWidth;
-            canvas.height = maxHeight;
+            // 提高预览清晰度 - 使用双倍分辨率
+            const scaleFactor = 2;
+            canvas.width = maxWidth * scaleFactor;
+            canvas.height = maxHeight * scaleFactor;
+            
+            // 设置canvas显示尺寸为容器尺寸
+            canvas.style.width = maxWidth + 'px';
+            canvas.style.height = maxHeight + 'px';
             
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
@@ -3499,11 +3508,11 @@
                 maxWidth / watermarkImage.width,
                 maxHeight / watermarkImage.height
             );
-            const displayWidth = watermarkImage.width * scale;
-            const displayHeight = watermarkImage.height * scale;
+            const displayWidth = watermarkImage.width * scale * scaleFactor;
+            const displayHeight = watermarkImage.height * scale * scaleFactor;
             
-            const x = (maxWidth - displayWidth) / 2;
-            const y = (maxHeight - displayHeight) / 2;
+            const x = (canvas.width - displayWidth) / 2;
+            const y = (canvas.height - displayHeight) / 2;
             
             ctx.save();
             ctx.globalAlpha = settings.singleWatermarkOpacity;
@@ -3526,13 +3535,13 @@
             
             // 绘制边框
             ctx.strokeStyle = '#27ae60';
-            ctx.lineWidth = 2;
-            ctx.setLineDash([5, 5]);
+            ctx.lineWidth = 2 * scaleFactor;
+            ctx.setLineDash([5 * scaleFactor, 5 * scaleFactor]);
             ctx.strokeRect(x, y, displayWidth, displayHeight);
             ctx.setLineDash([]);
         }
         
-        // 绘制预览 - 修复：现在会正确应用单独调节设置到预览
+        // 绘制预览 - 修复：现在会正确应用单独调节设置到预览，并提高清晰度
         function drawPreview(orientation, photo) {
             const canvasId = orientation === 'horizontal' ? 'horizontalCanvas' : 'verticalCanvas';
             const sizeSpanId = orientation === 'horizontal' ? 'horizontalSize' : 'verticalSize';
@@ -3543,8 +3552,14 @@
             const containerWidth = container.parentElement.clientWidth;
             const containerHeight = container.parentElement.clientHeight;
             
-            canvas.width = containerWidth;
-            canvas.height = containerHeight;
+            // 提高预览清晰度 - 使用双倍分辨率
+            const scaleFactor = 2;
+            canvas.width = containerWidth * scaleFactor;
+            canvas.height = containerHeight * scaleFactor;
+            
+            // 设置canvas显示尺寸为容器尺寸
+            canvas.style.width = containerWidth + 'px';
+            canvas.style.height = containerHeight + 'px';
             
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
@@ -3564,6 +3579,7 @@
                 totalHeight += borderTop + borderBottom;
             }
             
+            // 计算缩放比例时使用实际画布尺寸
             const scale = Math.min(
                 canvas.width / totalWidth,
                 canvas.height / totalHeight
@@ -3689,8 +3705,8 @@
                 
                 // 绘制水印边框
                 ctx.strokeStyle = '#3498db';
-                ctx.lineWidth = 2;
-                ctx.setLineDash([5, 5]);
+                ctx.lineWidth = 2 * (scaleFactor / 2); // 根据缩放因子调整线宽
+                ctx.setLineDash([5 * scaleFactor, 5 * scaleFactor]);
                 ctx.strokeRect(watermarkX, watermarkY, watermarkDisplayWidth, watermarkDisplayHeight);
                 ctx.setLineDash([]);
             }
@@ -3836,7 +3852,7 @@
                         ctx.save();
                         
                         // 修复问题2：在最终生成时使用设置的圆角像素值
-                        // 每张照片都使用相同的圆角像素值
+                        // 每张照片都使用相同的圆角像素值（80）
                         if (settings.border.borderRadius > 0) {
                             ctx.beginPath();
                             ctx.roundRect(
