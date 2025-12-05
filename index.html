@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 专业摄影师批量水印工具———音乐杀手制作 </title>
+    <title> 图片批量加水印工具———音乐杀手制作 </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -1359,7 +1359,7 @@
 </head>
 <body>
     <header>
-        <h1><i class="fas fa-camera"></i>  专业摄影师批量水印工具———音乐杀手制作  </h1>
+        <h1><i class="fas fa-camera"></i>  图片批量加水印工具———音乐杀手制作  </h1>
         <p class="subtitle">批量添加水印 | 位置可调 | 横竖图独立设置 | 保留原始画质</p>
     </header>
     
@@ -1581,7 +1581,7 @@
                         <div class="slider-container">
                             <label class="control-label">水平位置</label>
                             <input type="range" id="hPositionX" min="0" max="100" value="50" step="0.5" disabled>
-                            <span class="slider-value"><span id="hXValue">50%</span></span>
+                            <span class="slider-value"><span id="hXValue">50.0%</span></span>
                         </div>
                         <input type="number" class="number-input" id="hPositionXInput" min="0" max="100" value="50" step="0.5" disabled>
                     </div>
@@ -1592,7 +1592,7 @@
                         <div class="slider-container">
                             <label class="control-label">垂直位置</label>
                             <input type="range" id="hPositionY" min="0" max="100" value="96" step="0.5" disabled>
-                            <span class="slider-value"><span id="hYValue">96%</span></span>
+                            <span class="slider-value"><span id="hYValue">96.0%</span></span>
                         </div>
                         <input type="number" class="number-input" id="hPositionYInput" min="0" max="100" value="96" step="0.5" disabled>
                     </div>
@@ -1669,7 +1669,7 @@
                         <div class="slider-container">
                             <label class="control-label">水平位置</label>
                             <input type="range" id="vPositionX" min="0" max="100" value="50" step="0.5" disabled>
-                            <span class="slider-value"><span id="vXValue">50%</span></span>
+                            <span class="slider-value"><span id="vXValue">50.0%</span></span>
                         </div>
                         <input type="number" class="number-input" id="vPositionXInput" min="0" max="100" value="50" step="0.5" disabled>
                     </div>
@@ -1680,7 +1680,7 @@
                         <div class="slider-container">
                             <label class="control-label">垂直位置</label>
                             <input type="range" id="vPositionY" min="0" max="100" value="96" step="0.5" disabled>
-                            <span class="slider-value"><span id="vYValue">96%</span></span>
+                            <span class="slider-value"><span id="vYValue">96.0%</span></span>
                         </div>
                         <input type="number" class="number-input" id="vPositionYInput" min="0" max="100" value="96" step="0.5" disabled>
                     </div>
@@ -2226,12 +2226,12 @@
                 // 更新横图垂直位置滑块和输入框
                 document.getElementById('hPositionY').value = 96;
                 document.getElementById('hPositionYInput').value = 96;
-                document.getElementById('hYValue').textContent = '96%';
+                document.getElementById('hYValue').textContent = '96.0%';
                 
                 // 更新竖图垂直位置滑块和输入框
                 document.getElementById('vPositionY').value = 96;
                 document.getElementById('vPositionYInput').value = 96;
-                document.getElementById('vYValue').textContent = '96%';
+                document.getElementById('vYValue').textContent = '96.0%';
                 
                 updatePreviews();
                 updateSingleWatermarkPreview();
@@ -2256,7 +2256,7 @@
                 // 更新竖图垂直位置滑块和输入框
                 document.getElementById('vPositionY').value = 95;
                 document.getElementById('vPositionYInput').value = 95;
-                document.getElementById('vYValue').textContent = '95%';
+                document.getElementById('vYValue').textContent = '95.0%';
                 
                 updatePreviews();
                 updateSingleWatermarkPreview();
@@ -2777,8 +2777,12 @@
             slider.addEventListener('input', function() {
                 const value = this.value;
                 input.value = value;
-                // 修改：边框设置的值显示去掉px后缀
-                if (sliderId.includes('border') && !sliderId.includes('borderRadius')) {
+                
+                // 修改：位置滑块的显示值保留1位小数
+                if (sliderId === 'hPositionX' || sliderId === 'hPositionY' || 
+                    sliderId === 'vPositionX' || sliderId === 'vPositionY') {
+                    valueSpan.textContent = parseFloat(value).toFixed(1) + '%';
+                } else if (sliderId.includes('border') && !sliderId.includes('borderRadius')) {
                     valueSpan.textContent = value;
                 } else if (sliderId.includes('Opacity')) {
                     valueSpan.textContent = value + '%';
@@ -2789,6 +2793,7 @@
                 } else {
                     valueSpan.textContent = value + '%';
                 }
+                
                 callback(value);
             });
             
@@ -2803,8 +2808,12 @@
                 
                 this.value = value;
                 slider.value = value;
-                // 修改：边框设置的值显示去掉px后缀
-                if (sliderId.includes('border') && !sliderId.includes('borderRadius')) {
+                
+                // 修改：位置滑块的显示值保留1位小数
+                if (sliderId === 'hPositionX' || sliderId === 'hPositionY' || 
+                    sliderId === 'vPositionX' || sliderId === 'vPositionY') {
+                    valueSpan.textContent = value.toFixed(1) + '%';
+                } else if (sliderId.includes('border') && !sliderId.includes('borderRadius')) {
                     valueSpan.textContent = value;
                 } else if (sliderId.includes('Opacity')) {
                     valueSpan.textContent = value + '%';
@@ -2815,6 +2824,7 @@
                 } else {
                     valueSpan.textContent = value + '%';
                 }
+                
                 callback(value);
             });
             
@@ -2822,8 +2832,12 @@
             slider.addEventListener('dblclick', function() {
                 slider.value = defaultValue;
                 input.value = defaultValue;
-                // 修改：边框设置的值显示去掉px后缀
-                if (sliderId.includes('border') && !sliderId.includes('borderRadius')) {
+                
+                // 修改：位置滑块的显示值保留1位小数
+                if (sliderId === 'hPositionX' || sliderId === 'hPositionY' || 
+                    sliderId === 'vPositionX' || sliderId === 'vPositionY') {
+                    valueSpan.textContent = defaultValue.toFixed(1) + '%';
+                } else if (sliderId.includes('border') && !sliderId.includes('borderRadius')) {
                     valueSpan.textContent = defaultValue;
                 } else if (sliderId.includes('Opacity')) {
                     valueSpan.textContent = defaultValue + '%';
@@ -2834,6 +2848,7 @@
                 } else {
                     valueSpan.textContent = defaultValue + '%';
                 }
+                
                 callback(defaultValue);
             });
             
@@ -2841,8 +2856,12 @@
             input.addEventListener('dblclick', function() {
                 slider.value = defaultValue;
                 input.value = defaultValue;
-                // 修改：边框设置的值显示去掉px后缀
-                if (sliderId.includes('border') && !sliderId.includes('borderRadius')) {
+                
+                // 修改：位置滑块的显示值保留1位小数
+                if (sliderId === 'hPositionX' || sliderId === 'hPositionY' || 
+                    sliderId === 'vPositionX' || sliderId === 'vPositionY') {
+                    valueSpan.textContent = defaultValue.toFixed(1) + '%';
+                } else if (sliderId.includes('border') && !sliderId.includes('borderRadius')) {
                     valueSpan.textContent = defaultValue;
                 } else if (sliderId.includes('Opacity')) {
                     valueSpan.textContent = defaultValue + '%';
@@ -2853,6 +2872,7 @@
                 } else {
                     valueSpan.textContent = defaultValue + '%';
                 }
+                
                 callback(defaultValue);
             });
         }
