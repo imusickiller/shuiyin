@@ -1893,6 +1893,91 @@
             }
         };
         
+        // 计算安全位置范围（确保水印不会超出照片边界）
+        function calculateSafePosition(orientation, buttonType) {
+            if (!watermarkImage) return { x: 50, y: 96 };
+            
+            const photo = orientation === 'horizontal' ? currentHorizontalImage : currentVerticalImage;
+            if (!photo) return { x: 50, y: 96 };
+            
+            const watermarkSize = orientation === 'horizontal' ? 
+                settings.horizontalWatermarkSize : settings.verticalWatermarkSize;
+            
+            // 计算水印在图片上的像素宽度
+            const watermarkWidthPixels = (watermarkSize / 100) * photo.width;
+            const watermarkHeightPixels = watermarkWidthPixels * (watermarkImage.height / watermarkImage.width);
+            
+            // 计算总宽度（图片宽度 + 边框宽度）
+            const borderLeft = settings.border.enabled ? settings.border.left : 0;
+            const borderRight = settings.border.enabled ? settings.border.right : 0;
+            const borderTop = settings.border.enabled ? settings.border.top : 0;
+            const borderBottom = settings.border.enabled ? settings.border.bottom : 0;
+            
+            const totalWidth = photo.width + borderLeft + borderRight;
+            const totalHeight = photo.height + borderTop + borderBottom;
+            
+            // 计算水印宽度占总宽度的百分比
+            const watermarkWidthPercent = (watermarkWidthPixels / totalWidth) * 100;
+            const watermarkHeightPercent = (watermarkHeightPixels / totalHeight) * 100;
+            
+            // 计算允许的最小和最大百分比位置
+            const minXPercent = (watermarkWidthPercent / 2);
+            const maxXPercent = 100 - (watermarkWidthPercent / 2);
+            const minYPercent = (watermarkHeightPercent / 2);
+            const maxYPercent = 100 - (watermarkHeightPercent / 2);
+            
+            // 根据按钮类型返回不同的位置
+            let x, y;
+            
+            switch(buttonType) {
+                case 'topLeft':
+                    x = minXPercent;
+                    y = minYPercent;
+                    break;
+                case 'topCenter':
+                    x = 50;
+                    y = minYPercent;
+                    break;
+                case 'topRight':
+                    x = maxXPercent;
+                    y = minYPercent;
+                    break;
+                case 'middleLeft':
+                    x = minXPercent;
+                    y = 50;
+                    break;
+                case 'center':
+                    x = 50;
+                    y = 50;
+                    break;
+                case 'middleRight':
+                    x = maxXPercent;
+                    y = 50;
+                    break;
+                case 'bottomLeft':
+                    x = minXPercent;
+                    y = maxYPercent;
+                    break;
+                case 'bottomCenter':
+                    x = 50;
+                    y = maxYPercent;
+                    break;
+                case 'bottomRight':
+                    x = maxXPercent;
+                    y = maxYPercent;
+                    break;
+                default:
+                    x = 50;
+                    y = 50;
+            }
+            
+            // 确保位置在安全范围内
+            x = Math.max(minXPercent, Math.min(x, maxXPercent));
+            y = Math.max(minYPercent, Math.min(y, maxYPercent));
+            
+            return { x: x, y: y };
+        }
+        
         // 初始化事件监听器
         document.addEventListener('DOMContentLoaded', function() {
             initEventListeners();
@@ -2231,57 +2316,171 @@
                 updatePositionSliderRanges(); // 修复：更新位置滑块范围
             }, 100);
             
-            // 横图预设位置按钮 - 修改：底部按钮的y值从96改为对应的预设值
-            const hPositionButtons = [
-                {id: 'hTopLeft', x: 5, y: 5},
-                {id: 'hTopCenter', x: 50, y: 5},
-                {id: 'hTopRight', x: 95, y: 5},
-                {id: 'hMiddleLeft', x: 5, y: 50},
-                {id: 'hCenter', x: 50, y: 50},
-                {id: 'hMiddleRight', x: 95, y: 50},
-                {id: 'hBottomLeft', x: 5, y: 96},
-                {id: 'hBottomCenter', x: 50, y: 96},
-                {id: 'hBottomRight', x: 95, y: 96}
-            ];
-            
-            hPositionButtons.forEach(btn => {
-                document.getElementById(btn.id).addEventListener('click', function() {
-                    horizontalPosition = { x: btn.x, y: btn.y };
-                    document.getElementById('hPositionX').value = btn.x;
-                    document.getElementById('hPositionXInput').value = btn.x;
-                    document.getElementById('hXValue').textContent = btn.x + '%';
-                    document.getElementById('hPositionY').value = btn.y;
-                    document.getElementById('hPositionYInput').value = btn.y;
-                    document.getElementById('hYValue').textContent = btn.y + '%';
-                    updatePreviews();
-                });
+            // 横图预设位置按钮 - 修改：使用动态计算的安全位置
+            document.getElementById('hTopLeft').addEventListener('click', function() {
+                if (!currentHorizontalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('horizontal', 'topLeft');
+                horizontalPosition = { x: pos.x, y: pos.y };
+                updateHorizontalPositionUI();
+                updatePreviews();
             });
             
-            // 竖图预设位置按钮 - 修改：底部按钮的y值从96改为对应的预设值
-            const vPositionButtons = [
-                {id: 'vTopLeft', x: 5, y: 5},
-                {id: 'vTopCenter', x: 50, y: 5},
-                {id: 'vTopRight', x: 95, y: 5},
-                {id: 'vMiddleLeft', x: 5, y: 50},
-                {id: 'vCenter', x: 50, y: 50},
-                {id: 'vMiddleRight', x: 95, y: 50},
-                {id: 'vBottomLeft', x: 5, y: 96},
-                {id: 'vBottomCenter', x: 50, y: 96},
-                {id: 'vBottomRight', x: 95, y: 96}
-            ];
-            
-            vPositionButtons.forEach(btn => {
-                document.getElementById(btn.id).addEventListener('click', function() {
-                    verticalPosition = { x: btn.x, y: btn.y };
-                    document.getElementById('vPositionX').value = btn.x;
-                    document.getElementById('vPositionXInput').value = btn.x;
-                    document.getElementById('vXValue').textContent = btn.x + '%';
-                    document.getElementById('vPositionY').value = btn.y;
-                    document.getElementById('vPositionYInput').value = btn.y;
-                    document.getElementById('vYValue').textContent = btn.y + '%';
-                    updatePreviews();
-                });
+            document.getElementById('hTopCenter').addEventListener('click', function() {
+                if (!currentHorizontalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('horizontal', 'topCenter');
+                horizontalPosition = { x: pos.x, y: pos.y };
+                updateHorizontalPositionUI();
+                updatePreviews();
             });
+            
+            document.getElementById('hTopRight').addEventListener('click', function() {
+                if (!currentHorizontalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('horizontal', 'topRight');
+                horizontalPosition = { x: pos.x, y: pos.y };
+                updateHorizontalPositionUI();
+                updatePreviews();
+            });
+            
+            document.getElementById('hMiddleLeft').addEventListener('click', function() {
+                if (!currentHorizontalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('horizontal', 'middleLeft');
+                horizontalPosition = { x: pos.x, y: pos.y };
+                updateHorizontalPositionUI();
+                updatePreviews();
+            });
+            
+            document.getElementById('hCenter').addEventListener('click', function() {
+                if (!currentHorizontalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('horizontal', 'center');
+                horizontalPosition = { x: pos.x, y: pos.y };
+                updateHorizontalPositionUI();
+                updatePreviews();
+            });
+            
+            document.getElementById('hMiddleRight').addEventListener('click', function() {
+                if (!currentHorizontalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('horizontal', 'middleRight');
+                horizontalPosition = { x: pos.x, y: pos.y };
+                updateHorizontalPositionUI();
+                updatePreviews();
+            });
+            
+            document.getElementById('hBottomLeft').addEventListener('click', function() {
+                if (!currentHorizontalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('horizontal', 'bottomLeft');
+                horizontalPosition = { x: pos.x, y: pos.y };
+                updateHorizontalPositionUI();
+                updatePreviews();
+            });
+            
+            document.getElementById('hBottomCenter').addEventListener('click', function() {
+                if (!currentHorizontalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('horizontal', 'bottomCenter');
+                horizontalPosition = { x: pos.x, y: pos.y };
+                updateHorizontalPositionUI();
+                updatePreviews();
+            });
+            
+            document.getElementById('hBottomRight').addEventListener('click', function() {
+                if (!currentHorizontalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('horizontal', 'bottomRight');
+                horizontalPosition = { x: pos.x, y: pos.y };
+                updateHorizontalPositionUI();
+                updatePreviews();
+            });
+            
+            // 竖图预设位置按钮 - 修改：使用动态计算的安全位置
+            document.getElementById('vTopLeft').addEventListener('click', function() {
+                if (!currentVerticalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('vertical', 'topLeft');
+                verticalPosition = { x: pos.x, y: pos.y };
+                updateVerticalPositionUI();
+                updatePreviews();
+            });
+            
+            document.getElementById('vTopCenter').addEventListener('click', function() {
+                if (!currentVerticalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('vertical', 'topCenter');
+                verticalPosition = { x: pos.x, y: pos.y };
+                updateVerticalPositionUI();
+                updatePreviews();
+            });
+            
+            document.getElementById('vTopRight').addEventListener('click', function() {
+                if (!currentVerticalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('vertical', 'topRight');
+                verticalPosition = { x: pos.x, y: pos.y };
+                updateVerticalPositionUI();
+                updatePreviews();
+            });
+            
+            document.getElementById('vMiddleLeft').addEventListener('click', function() {
+                if (!currentVerticalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('vertical', 'middleLeft');
+                verticalPosition = { x: pos.x, y: pos.y };
+                updateVerticalPositionUI();
+                updatePreviews();
+            });
+            
+            document.getElementById('vCenter').addEventListener('click', function() {
+                if (!currentVerticalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('vertical', 'center');
+                verticalPosition = { x: pos.x, y: pos.y };
+                updateVerticalPositionUI();
+                updatePreviews();
+            });
+            
+            document.getElementById('vMiddleRight').addEventListener('click', function() {
+                if (!currentVerticalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('vertical', 'middleRight');
+                verticalPosition = { x: pos.x, y: pos.y };
+                updateVerticalPositionUI();
+                updatePreviews();
+            });
+            
+            document.getElementById('vBottomLeft').addEventListener('click', function() {
+                if (!currentVerticalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('vertical', 'bottomLeft');
+                verticalPosition = { x: pos.x, y: pos.y };
+                updateVerticalPositionUI();
+                updatePreviews();
+            });
+            
+            document.getElementById('vBottomCenter').addEventListener('click', function() {
+                if (!currentVerticalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('vertical', 'bottomCenter');
+                verticalPosition = { x: pos.x, y: pos.y };
+                updateVerticalPositionUI();
+                updatePreviews();
+            });
+            
+            document.getElementById('vBottomRight').addEventListener('click', function() {
+                if (!currentVerticalImage || !watermarkImage) return;
+                const pos = calculateSafePosition('vertical', 'bottomRight');
+                verticalPosition = { x: pos.x, y: pos.y };
+                updateVerticalPositionUI();
+                updatePreviews();
+            });
+            
+            // 更新横图位置UI
+            function updateHorizontalPositionUI() {
+                document.getElementById('hPositionX').value = horizontalPosition.x;
+                document.getElementById('hPositionXInput').value = horizontalPosition.x;
+                document.getElementById('hXValue').textContent = horizontalPosition.x.toFixed(1) + '%';
+                document.getElementById('hPositionY').value = horizontalPosition.y;
+                document.getElementById('hPositionYInput').value = horizontalPosition.y;
+                document.getElementById('hYValue').textContent = horizontalPosition.y.toFixed(1) + '%';
+            }
+            
+            // 更新竖图位置UI
+            function updateVerticalPositionUI() {
+                document.getElementById('vPositionX').value = verticalPosition.x;
+                document.getElementById('vPositionXInput').value = verticalPosition.x;
+                document.getElementById('vXValue').textContent = verticalPosition.x.toFixed(1) + '%';
+                document.getElementById('vPositionY').value = verticalPosition.y;
+                document.getElementById('vPositionYInput').value = verticalPosition.y;
+                document.getElementById('vYValue').textContent = verticalPosition.y.toFixed(1) + '%';
+            }
             
             // 预览选择器
             document.getElementById('horizontalPreviewSelect').addEventListener('change', function() {
@@ -2337,50 +2536,76 @@
             
             // 计算水印在图片上的像素宽度
             const watermarkWidthPixels = (watermarkSize / 100) * photo.width;
+            const watermarkHeightPixels = watermarkWidthPixels * (watermarkImage.height / watermarkImage.width);
             
             // 计算总宽度（图片宽度 + 边框宽度）
             const borderLeft = settings.border.enabled ? settings.border.left : 0;
             const borderRight = settings.border.enabled ? settings.border.right : 0;
+            const borderTop = settings.border.enabled ? settings.border.top : 0;
+            const borderBottom = settings.border.enabled ? settings.border.bottom : 0;
+            
             const totalWidth = photo.width + borderLeft + borderRight;
+            const totalHeight = photo.height + borderTop + borderBottom;
             
             // 计算水印宽度占总宽度的百分比
             const watermarkWidthPercent = (watermarkWidthPixels / totalWidth) * 100;
+            const watermarkHeightPercent = (watermarkHeightPixels / totalHeight) * 100;
             
             // 计算允许的最小和最大百分比位置
-            // 水印中心点不能太靠近边缘，要确保水印完全在图片内
-            const minPercent = (watermarkWidthPercent / 2);
-            const maxPercent = 100 - (watermarkWidthPercent / 2);
+            const minXPercent = (watermarkWidthPercent / 2);
+            const maxXPercent = 100 - (watermarkWidthPercent / 2);
+            const minYPercent = (watermarkHeightPercent / 2);
+            const maxYPercent = 100 - (watermarkHeightPercent / 2);
             
-            const slider = orientation === 'horizontal' ? 
+            const sliderX = orientation === 'horizontal' ? 
                 document.getElementById('hPositionX') : document.getElementById('vPositionX');
-            const input = orientation === 'horizontal' ? 
+            const inputX = orientation === 'horizontal' ? 
                 document.getElementById('hPositionXInput') : document.getElementById('vPositionXInput');
+                
+            const sliderY = orientation === 'horizontal' ? 
+                document.getElementById('hPositionY') : document.getElementById('vPositionY');
+            const inputY = orientation === 'horizontal' ? 
+                document.getElementById('hPositionYInput') : document.getElementById('vPositionYInput');
             
-            if (slider && input) {
+            if (sliderX && inputX && sliderY && inputY) {
                 // 保存当前值
-                let currentValue = parseFloat(slider.value);
+                let currentX = parseFloat(sliderX.value);
+                let currentY = parseFloat(sliderY.value);
                 
                 // 设置新的最小值和最大值
-                slider.min = minPercent;
-                slider.max = maxPercent;
-                input.min = minPercent;
-                input.max = maxPercent;
+                sliderX.min = minXPercent;
+                sliderX.max = maxXPercent;
+                inputX.min = minXPercent;
+                inputX.max = maxXPercent;
+                
+                sliderY.min = minYPercent;
+                sliderY.max = maxYPercent;
+                inputY.min = minYPercent;
+                inputY.max = maxYPercent;
                 
                 // 调整当前值在新范围内
-                if (currentValue < minPercent) currentValue = minPercent;
-                if (currentValue > maxPercent) currentValue = maxPercent;
+                if (currentX < minXPercent) currentX = minXPercent;
+                if (currentX > maxXPercent) currentX = maxXPercent;
+                if (currentY < minYPercent) currentY = minYPercent;
+                if (currentY > maxYPercent) currentY = maxYPercent;
                 
                 // 更新滑块和输入框的值
-                slider.value = currentValue;
-                input.value = currentValue;
+                sliderX.value = currentX;
+                inputX.value = currentX;
+                sliderY.value = currentY;
+                inputY.value = currentY;
                 
                 // 更新显示
                 if (orientation === 'horizontal') {
-                    document.getElementById('hXValue').textContent = currentValue.toFixed(1) + '%';
-                    horizontalPosition.x = currentValue;
+                    document.getElementById('hXValue').textContent = currentX.toFixed(1) + '%';
+                    document.getElementById('hYValue').textContent = currentY.toFixed(1) + '%';
+                    horizontalPosition.x = currentX;
+                    horizontalPosition.y = currentY;
                 } else {
-                    document.getElementById('vXValue').textContent = currentValue.toFixed(1) + '%';
-                    verticalPosition.x = currentValue;
+                    document.getElementById('vXValue').textContent = currentX.toFixed(1) + '%';
+                    document.getElementById('vYValue').textContent = currentY.toFixed(1) + '%';
+                    verticalPosition.x = currentX;
+                    verticalPosition.y = currentY;
                 }
                 
                 // 更新预览
