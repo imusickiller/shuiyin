@@ -1405,17 +1405,20 @@
                 </div>
             </div>
             
-            <!-- 选择水印 -->
+            <!-- 选择水印（已添加删除水印按钮） -->
             <div class="card selection-card">
                 <h2><i class="fas fa-water"></i> 选择水印图片</h2>
                 <div class="file-button-container">
-                    <span style="font-weight: 600; color: #ecf0f1; margin-right: 10px;">选择水印:</span>
+                    <span style="font-weight: 600; color: #ecf0f1; margin-right: 10px;">水印:</span>
                     <button class="file-button" id="watermarkButton">
                         <i class="fas fa-file-image"></i> 选择水印图片
                     </button>
+                    <button class="file-button" id="removeWatermarkBtn" disabled style="background-color:#e74c3c;">
+                        <i class="fas fa-trash-alt"></i> 删除水印
+                    </button>
                     <input type="file" class="file-input" id="watermarkInput" accept="image/png">
                     <span style="font-size: 14px; color: #bdc3c7; margin-left: 10px;">
-                        仅支持PNG格式（建议使用透明背景）
+                        仅支持PNG格式（建议透明背景）
                     </span>
                 </div>
                 
@@ -1821,7 +1824,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     
     <script>
-        // 全局变量 (完全保留)
+        // 全局变量
         let photos = [];
         let watermarkImage = null;
         let watermarkOriginalFile = null;
@@ -1995,6 +1998,9 @@
             document.getElementById('watermarkButton').addEventListener('click', function() {
                 document.getElementById('watermarkInput').click();
             });
+            
+            // 新增：删除水印按钮
+            document.getElementById('removeWatermarkBtn').addEventListener('click', removeWatermark);
             
             // 文件输入事件
             document.getElementById('addMorePhotoInput').addEventListener('change', handlePhotoAdd);
@@ -2220,7 +2226,7 @@
                 updatePreviews();
                 updateSingleWatermarkPreview();
                 updatePositionSliderRanges();
-                updateProcessButton(); // 新增：更新处理按钮状态
+                updateProcessButton();
             });
             
             document.getElementById('borderOn').addEventListener('click', function() {
@@ -2243,7 +2249,7 @@
                 updatePreviews();
                 updateSingleWatermarkPreview();
                 updatePositionSliderRanges();
-                updateProcessButton(); // 新增：更新处理按钮状态
+                updateProcessButton();
             });
             
             // 边框颜色
@@ -2499,6 +2505,33 @@
             document.getElementById('vBottomCenter').click();
         }
         
+        // 新增：删除水印函数
+        function removeWatermark() {
+            if (!watermarkImage) return; // 如果没有水印，直接返回
+            
+            watermarkImage = null;
+            watermarkOriginalFile = null;
+            
+            // 清空水印预览区域
+            const previewContainer = document.getElementById('watermarkPreview');
+            previewContainer.innerHTML = '<div class="no-watermark-message">水印预览将在此显示</div>';
+            
+            const watermarkInfo = document.getElementById('watermarkInfo');
+            watermarkInfo.innerHTML = ''; // 清空信息
+            
+            // 更新所有预览（移除水印绘制）
+            updatePreviews();
+            updateSingleWatermarkPreview();
+            
+            // 更新水印相关控件的状态（禁用）
+            updateWatermarkControlsState();
+            updateOrientationButtonsState();
+            updateProcessButton(); // 更新处理按钮状态
+            
+            // 禁用删除按钮自身
+            document.getElementById('removeWatermarkBtn').disabled = true;
+        }
+        
         // 更新位置滑块的范围，确保水印不超出边界
         function updatePositionSliderRanges() {
             updatePositionSliderRange('horizontal');
@@ -2643,6 +2676,9 @@
             enableControls(hPositionButtons, hasWatermark && hasCurrentHorizontalImage);
             enableControls(verticalControls, hasWatermark && hasCurrentVerticalImage);
             enableControls(vPositionButtons, hasWatermark && hasCurrentVerticalImage);
+            
+            // 控制删除水印按钮的启用/禁用
+            document.getElementById('removeWatermarkBtn').disabled = !hasWatermark;
             
             updateSingleAdjustmentControlsState();
             
@@ -3503,6 +3539,9 @@
                     
                     updateWatermarkControlsState();
                     updateOrientationButtonsState();
+                    
+                    // 启用删除水印按钮
+                    document.getElementById('removeWatermarkBtn').disabled = false;
                 };
                 watermarkImage.onerror = function() {
                     alert('无法加载水印图片，请确保文件格式正确');
@@ -3920,7 +3959,7 @@
             const hasPhotos = photos.length > 0;
             const hasWatermark = watermarkImage !== null;
             
-            // 修改：有水印 或 (边框开启且有照片) 则启用按钮
+            // 有水印 或 (边框开启且有照片) 则启用按钮
             processBtn.disabled = !(hasPhotos && (hasWatermark || settings.border.enabled));
             
             if (!hasPhotos) {
