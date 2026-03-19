@@ -6,6 +6,7 @@
     <title> 图片批量加水印工具———音乐杀手制作 </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* 原有样式 —— 完全保留，未作任何修改 */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -105,7 +106,7 @@
             gap: 15px;
             margin-bottom: 15px;
             align-items: center;
-            justify-content: flex-start; /* 修改为左对齐 */
+            justify-content: flex-start;
         }
         
         .file-button {
@@ -189,10 +190,9 @@
             min-height: 200px;
         }
         
-        /* 修改：选择照片列表框高度再高一些 */
         .photo-list-container {
             flex: 1;
-            max-height: 350px; /* 从280px增加到350px */
+            max-height: 350px;
             overflow-y: auto;
             border: 1px solid #5d6d7e;
             border-radius: 5px;
@@ -204,15 +204,14 @@
         .photo-list-buttons {
             display: flex;
             flex-direction: column;
-            gap: 12px; /* 增加按钮之间的间距 */
+            gap: 12px;
             width: 140px;
             flex-shrink: 0;
             align-items: flex-end;
         }
         
-        /* 修改：清空按钮分的更开一些 */
         .photo-list-buttons .file-button.clear-btn {
-            margin-top: 30px; /* 从15px增加到30px */
+            margin-top: 30px;
         }
         
         .photo-list-buttons .file-button {
@@ -393,7 +392,6 @@
             max-height: 100%;
             display: block;
             cursor: grab;
-            /* 提高画布渲染质量 */
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
         }
@@ -626,7 +624,6 @@
             border: 3px solid #7f8c8d;
         }
         
-        /* 修改：边距设置田字排列 */
         .border-controls {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -634,17 +631,14 @@
             margin-top: 15px;
         }
         
-        /* 修改：边框设置组内的滑动条长度再变短一半 */
         #borderSettings .border-controls .slider-container input[type="range"] {
-            max-width: 60px; /* 从120px缩短到60px */
+            max-width: 60px;
         }
         
-        /* 修改：确保边框设置组的整体布局不会乱 */
         #borderSettings .border-controls .control-group {
             margin-bottom: 10px;
         }
         
-        /* 修改：确保边框设置组的宽度与照片水印单独调节一致 */
         #borderSettings {
             width: 100%;
             box-sizing: border-box;
@@ -1414,7 +1408,6 @@
             <!-- 选择水印 -->
             <div class="card selection-card">
                 <h2><i class="fas fa-water"></i> 选择水印图片</h2>
-                <!-- 修改：选择水印部分布局调整为左对齐，文字和按钮在一行 -->
                 <div class="file-button-container">
                     <span style="font-weight: 600; color: #ecf0f1; margin-right: 10px;">选择水印:</span>
                     <button class="file-button" id="watermarkButton">
@@ -1468,9 +1461,7 @@
                         </div>
                     </div>
                     
-                    <!-- 修改：边距设置改为田字排列，文字改为上宽、下宽、左宽、右宽 -->
                     <div class="border-controls">
-                        <!-- 第一行：上宽和下宽 -->
                         <div class="control-group">
                             <div class="control-with-input">
                                 <div class="slider-container">
@@ -1493,7 +1484,6 @@
                             </div>
                         </div>
                         
-                        <!-- 第二行：左宽和右宽 -->
                         <div class="control-group">
                             <div class="control-with-input">
                                 <div class="slider-container">
@@ -1552,7 +1542,6 @@
                     </div>
                 </div>
                 
-                <!-- 修改：横图水印透明度位置向下移动，移到水平位置调节上面 -->
                 <div class="position-controls">
                     <button class="position-btn" id="hTopLeft" disabled>左上</button>
                     <button class="position-btn" id="hTopCenter" disabled>中上</button>
@@ -1640,7 +1629,6 @@
                     </div>
                 </div>
                 
-                <!-- 修改：竖图水印透明度位置向下移动，移到水平位置调节上面 -->
                 <div class="position-controls">
                     <button class="position-btn" id="vTopLeft" disabled>左上</button>
                     <button class="position-btn" id="vTopCenter" disabled>中上</button>
@@ -1709,7 +1697,6 @@
                     </div>
                 </div>
                 
-                <!-- 修改：将全选复选框和选择按钮放在同一行 -->
                 <div class="selection-buttons-with-checkbox">
                     <div class="checkbox-container">
                         <input type="checkbox" id="selectAllSinglePhotos" disabled>
@@ -1834,7 +1821,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     
     <script>
-        // 全局变量
+        // 全局变量 (完全保留)
         let photos = [];
         let watermarkImage = null;
         let watermarkOriginalFile = null;
@@ -1885,7 +1872,7 @@
             border: {
                 enabled: false,
                 color: 'black',
-                borderRadius: 80, // 修改：圆角默认值从50改为80
+                borderRadius: 80,
                 top: 100,
                 bottom: 100,
                 left: 100,
@@ -1983,7 +1970,7 @@
             initEventListeners();
             updateSingleAdjustmentControlsState();
             updateWatermarkControlsState();
-            updateOrientationButtonsState(); // 初始更新方向按钮状态
+            updateOrientationButtonsState();
         });
         
         // 初始化所有事件监听器
@@ -2028,7 +2015,7 @@
                 });
             });
             
-            // 全选/取消全选复选框（单独调节功能区） - 修复：添加了applySingleSettingsAutomatically调用
+            // 全选/取消全选复选框（单独调节功能区）
             document.getElementById('selectAllSinglePhotos').addEventListener('change', function() {
                 const isChecked = this.checked;
                 
@@ -2042,7 +2029,7 @@
                     selectedPhotos.clear();
                     photos.forEach((photo, index) => {
                         selectedPhotos.add(index);
-                        // 修复：应用当前单独水印调节设置到所有照片
+                        // 应用当前单独水印调节设置到所有照片
                         photo.watermarkOpacity = settings.singleWatermarkOpacity;
                         photo.watermarkBrightness = settings.singleWatermarkBrightness;
                         photo.watermarkContrast = settings.singleWatermarkContrast;
@@ -2134,7 +2121,7 @@
             setupSliderWithInput('horizontalWatermarkSize', 'horizontalWatermarkSizeInput', 'horizontalSizeValue', (value) => {
                 settings.horizontalWatermarkSize = parseFloat(value);
                 updatePreviews();
-                updatePositionSliderRanges(); // 更新滑块范围
+                updatePositionSliderRanges();
             }, 11);
             
             // 横图水印透明度控制
@@ -2143,7 +2130,7 @@
                 updatePreviews();
             }, 100);
             
-            // 横图位置控制 - 修复：根据边框设置调整最大值
+            // 横图位置控制
             setupSliderWithInput('hPositionX', 'hPositionXInput', 'hXValue', (value) => {
                 horizontalPosition.x = parseFloat(value);
                 updatePreviews();
@@ -2158,7 +2145,7 @@
             setupSliderWithInput('verticalWatermarkSize', 'verticalWatermarkSizeInput', 'verticalSizeValue', (value) => {
                 settings.verticalWatermarkSize = parseFloat(value);
                 updatePreviews();
-                updatePositionSliderRanges(); // 更新滑块范围
+                updatePositionSliderRanges();
             }, 25);
             
             // 竖图水印透明度控制
@@ -2167,7 +2154,7 @@
                 updatePreviews();
             }, 100);
             
-            // 竖图位置控制 - 修复：根据边框设置调整最大值
+            // 竖图位置控制
             setupSliderWithInput('vPositionX', 'vPositionXInput', 'vXValue', (value) => {
                 verticalPosition.x = parseFloat(value);
                 updatePreviews();
@@ -2219,23 +2206,21 @@
                 document.getElementById('borderOn').classList.remove('active');
                 document.getElementById('borderSettings').style.display = 'none';
                 
-                // 修改：当用户取消边框时，将垂直位置恢复为默认值96
                 horizontalPosition.y = 96;
                 verticalPosition.y = 96;
                 
-                // 更新横图垂直位置滑块和输入框
                 document.getElementById('hPositionY').value = 96;
                 document.getElementById('hPositionYInput').value = 96;
                 document.getElementById('hYValue').textContent = '96.0%';
                 
-                // 更新竖图垂直位置滑块和输入框
                 document.getElementById('vPositionY').value = 96;
                 document.getElementById('vPositionYInput').value = 96;
                 document.getElementById('vYValue').textContent = '96.0%';
                 
                 updatePreviews();
                 updateSingleWatermarkPreview();
-                updatePositionSliderRanges(); // 修复：更新位置滑块范围
+                updatePositionSliderRanges();
+                updateProcessButton(); // 新增：更新处理按钮状态
             });
             
             document.getElementById('borderOn').addEventListener('click', function() {
@@ -2244,23 +2229,21 @@
                 document.getElementById('borderOn').classList.add('active');
                 document.getElementById('borderSettings').style.display = 'block';
                 
-                // 修改：当用户选择使用边框后，将横图预览中的垂直位置默认值改为94.5，竖图预览中的垂直位置默认值改为95
                 horizontalPosition.y = 94.5;
                 verticalPosition.y = 95;
                 
-                // 更新横图垂直位置滑块和输入框
                 document.getElementById('hPositionY').value = 94.5;
                 document.getElementById('hPositionYInput').value = 94.5;
                 document.getElementById('hYValue').textContent = '94.5%';
                 
-                // 更新竖图垂直位置滑块和输入框
                 document.getElementById('vPositionY').value = 95;
                 document.getElementById('vPositionYInput').value = 95;
                 document.getElementById('vYValue').textContent = '95.0%';
                 
                 updatePreviews();
                 updateSingleWatermarkPreview();
-                updatePositionSliderRanges(); // 修复：更新位置滑块范围
+                updatePositionSliderRanges();
+                updateProcessButton(); // 新增：更新处理按钮状态
             });
             
             // 边框颜色
@@ -2280,7 +2263,7 @@
                 updateSingleWatermarkPreview();
             });
             
-            // 边框圆角 - 修改：默认值从50改为80
+            // 边框圆角
             setupSliderWithInput('borderRadius', 'borderRadiusInput', 'radiusValue', (value) => {
                 settings.border.borderRadius = parseInt(value);
                 updatePreviews();
@@ -2292,31 +2275,31 @@
                 settings.border.top = parseInt(value);
                 updatePreviews();
                 updateSingleWatermarkPreview();
-                updatePositionSliderRanges(); // 修复：更新位置滑块范围
+                updatePositionSliderRanges();
             }, 100);
             
             setupSliderWithInput('borderBottom', 'borderBottomInput', 'borderBottomValue', (value) => {
                 settings.border.bottom = parseInt(value);
                 updatePreviews();
                 updateSingleWatermarkPreview();
-                updatePositionSliderRanges(); // 修复：更新位置滑块范围
+                updatePositionSliderRanges();
             }, 100);
             
             setupSliderWithInput('borderLeft', 'borderLeftInput', 'borderLeftValue', (value) => {
                 settings.border.left = parseInt(value);
                 updatePreviews();
                 updateSingleWatermarkPreview();
-                updatePositionSliderRanges(); // 修复：更新位置滑块范围
+                updatePositionSliderRanges();
             }, 100);
             
             setupSliderWithInput('borderRight', 'borderRightInput', 'borderRightValue', (value) => {
                 settings.border.right = parseInt(value);
                 updatePreviews();
                 updateSingleWatermarkPreview();
-                updatePositionSliderRanges(); // 修复：更新位置滑块范围
+                updatePositionSliderRanges();
             }, 100);
             
-            // 横图预设位置按钮 - 修改：使用动态计算的安全位置
+            // 横图预设位置按钮
             document.getElementById('hTopLeft').addEventListener('click', function() {
                 if (!currentHorizontalImage || !watermarkImage) return;
                 const pos = calculateSafePosition('horizontal', 'topLeft');
@@ -2389,7 +2372,7 @@
                 updatePreviews();
             });
             
-            // 竖图预设位置按钮 - 修改：使用动态计算的安全位置
+            // 竖图预设位置按钮
             document.getElementById('vTopLeft').addEventListener('click', function() {
                 if (!currentVerticalImage || !watermarkImage) return;
                 const pos = calculateSafePosition('vertical', 'topLeft');
@@ -2490,7 +2473,7 @@
                     horizontalTransform = { x: 0, y: 0, scale: 1 };
                     applyPreviewTransform('horizontal');
                     updatePreviews();
-                    updatePositionSliderRanges(); // 修复：更新位置滑块范围
+                    updatePositionSliderRanges();
                 }
             });
             
@@ -2501,7 +2484,7 @@
                     verticalTransform = { x: 0, y: 0, scale: 1 };
                     applyPreviewTransform('vertical');
                     updatePreviews();
-                    updatePositionSliderRanges(); // 修复：更新位置滑块范围
+                    updatePositionSliderRanges();
                 }
             });
             
@@ -2518,9 +2501,7 @@
         
         // 更新位置滑块的范围，确保水印不超出边界
         function updatePositionSliderRanges() {
-            // 更新横图水平位置滑块范围
             updatePositionSliderRange('horizontal');
-            // 更新竖图水平位置滑块范围
             updatePositionSliderRange('vertical');
         }
         
@@ -2534,11 +2515,9 @@
             const watermarkSize = orientation === 'horizontal' ? 
                 settings.horizontalWatermarkSize : settings.verticalWatermarkSize;
             
-            // 计算水印在图片上的像素宽度
             const watermarkWidthPixels = (watermarkSize / 100) * photo.width;
             const watermarkHeightPixels = watermarkWidthPixels * (watermarkImage.height / watermarkImage.width);
             
-            // 计算总宽度（图片宽度 + 边框宽度）
             const borderLeft = settings.border.enabled ? settings.border.left : 0;
             const borderRight = settings.border.enabled ? settings.border.right : 0;
             const borderTop = settings.border.enabled ? settings.border.top : 0;
@@ -2547,11 +2526,9 @@
             const totalWidth = photo.width + borderLeft + borderRight;
             const totalHeight = photo.height + borderTop + borderBottom;
             
-            // 计算水印宽度占总宽度的百分比
             const watermarkWidthPercent = (watermarkWidthPixels / totalWidth) * 100;
             const watermarkHeightPercent = (watermarkHeightPixels / totalHeight) * 100;
             
-            // 计算允许的最小和最大百分比位置
             const minXPercent = (watermarkWidthPercent / 2);
             const maxXPercent = 100 - (watermarkWidthPercent / 2);
             const minYPercent = (watermarkHeightPercent / 2);
@@ -2568,11 +2545,9 @@
                 document.getElementById('hPositionYInput') : document.getElementById('vPositionYInput');
             
             if (sliderX && inputX && sliderY && inputY) {
-                // 保存当前值
                 let currentX = parseFloat(sliderX.value);
                 let currentY = parseFloat(sliderY.value);
                 
-                // 设置新的最小值和最大值
                 sliderX.min = minXPercent;
                 sliderX.max = maxXPercent;
                 inputX.min = minXPercent;
@@ -2583,19 +2558,16 @@
                 inputY.min = minYPercent;
                 inputY.max = maxYPercent;
                 
-                // 调整当前值在新范围内
                 if (currentX < minXPercent) currentX = minXPercent;
                 if (currentX > maxXPercent) currentX = maxXPercent;
                 if (currentY < minYPercent) currentY = minYPercent;
                 if (currentY > maxYPercent) currentY = maxYPercent;
                 
-                // 更新滑块和输入框的值
                 sliderX.value = currentX;
                 inputX.value = currentX;
                 sliderY.value = currentY;
                 inputY.value = currentY;
                 
-                // 更新显示
                 if (orientation === 'horizontal') {
                     document.getElementById('hXValue').textContent = currentX.toFixed(1) + '%';
                     document.getElementById('hYValue').textContent = currentY.toFixed(1) + '%';
@@ -2608,7 +2580,6 @@
                     verticalPosition.y = currentY;
                 }
                 
-                // 更新预览
                 updatePreviews();
             }
         }
@@ -2622,7 +2593,6 @@
             const hasCurrentHorizontalImage = currentHorizontalImage !== null;
             const hasCurrentVerticalImage = currentVerticalImage !== null;
             
-            // 横图预览设置
             const horizontalControls = [
                 'horizontalWatermarkOpacity', 'horizontalWatermarkOpacityInput',
                 'hPositionX', 'hPositionXInput', 'hPositionY', 'hPositionYInput',
@@ -2630,14 +2600,12 @@
                 'horizontalPreviewSelect', 'horizontalZoom'
             ];
             
-            // 横图位置按钮
             const hPositionButtons = [
                 'hTopLeft', 'hTopCenter', 'hTopRight',
                 'hMiddleLeft', 'hCenter', 'hMiddleRight',
                 'hBottomLeft', 'hBottomCenter', 'hBottomRight'
             ];
             
-            // 竖图预览设置
             const verticalControls = [
                 'verticalWatermarkOpacity', 'verticalWatermarkOpacityInput',
                 'vPositionX', 'vPositionXInput', 'vPositionY', 'vPositionYInput',
@@ -2645,14 +2613,12 @@
                 'verticalPreviewSelect', 'verticalZoom'
             ];
             
-            // 竖图位置按钮
             const vPositionButtons = [
                 'vTopLeft', 'vTopCenter', 'vTopRight',
                 'vMiddleLeft', 'vCenter', 'vMiddleRight',
                 'vBottomLeft', 'vBottomCenter', 'vBottomRight'
             ];
             
-            // 启用/禁用所有控件
             const enableControls = (controlIds, enabled) => {
                 controlIds.forEach(id => {
                     const control = document.getElementById(id);
@@ -2662,7 +2628,6 @@
                 });
             };
             
-            // 处理预览选择器（特殊处理）
             const horizontalSelect = document.getElementById('horizontalPreviewSelect');
             const verticalSelect = document.getElementById('verticalPreviewSelect');
             
@@ -2674,16 +2639,13 @@
                 verticalSelect.disabled = !(hasWatermark && hasVerticalPhotos);
             }
             
-            // 启用/禁用所有控件
             enableControls(horizontalControls, hasWatermark && hasCurrentHorizontalImage);
             enableControls(hPositionButtons, hasWatermark && hasCurrentHorizontalImage);
             enableControls(verticalControls, hasWatermark && hasCurrentVerticalImage);
             enableControls(vPositionButtons, hasWatermark && hasCurrentVerticalImage);
             
-            // 单独调节设置的状态更新（取决于是否有水印和是否有选中照片）
             updateSingleAdjustmentControlsState();
             
-            // 更新位置滑块范围
             if (hasWatermark) {
                 updatePositionSliderRanges();
             }
@@ -2695,15 +2657,12 @@
             const hasVerticalPhotos = photos.some(p => p.orientation === 'vertical');
             const hasPhotos = photos.length > 0;
             
-            // 更新选择照片区域的按钮
             document.getElementById('selectAllHorizontalList').disabled = !hasHorizontalPhotos;
             document.getElementById('selectAllVerticalList').disabled = !hasVerticalPhotos;
             
-            // 更新单独调节区域的按钮
             document.getElementById('selectAllHorizontalSingle').disabled = !(hasPhotos && hasHorizontalPhotos);
             document.getElementById('selectAllVerticalSingle').disabled = !(hasPhotos && hasVerticalPhotos);
             
-            // 更新单独调节区域的全选复选框
             document.getElementById('selectAllSinglePhotos').disabled = !hasPhotos;
         }
         
@@ -2713,13 +2672,11 @@
             const hasWatermark = watermarkImage !== null;
             const hasPhotos = photos.length > 0;
             
-            // 单独调节区域的控制元素
             const singleAdjustControls = [
                 'selectAllHorizontalSingle', 'selectAllVerticalSingle',
                 'selectAllSinglePhotos', 'resetSingleSettings'
             ];
             
-            // 单独调节滑块
             const singleAdjustSliders = [
                 'singleWatermarkOpacity', 'singleWatermarkOpacityInput',
                 'singleWatermarkBrightness', 'singleWatermarkBrightnessInput',
@@ -2728,7 +2685,6 @@
                 'singleWatermarkSaturation', 'singleWatermarkSaturationInput'
             ];
             
-            // 启用/禁用所有控件
             const enableControls = (controlIds, enabled) => {
                 controlIds.forEach(id => {
                     const control = document.getElementById(id);
@@ -2738,10 +2694,8 @@
                 });
             };
             
-            // 单独调节设置区域
             const adjustmentControls = document.getElementById('adjustmentControls');
             
-            // 判断单独调节设置区域是否可用
             const isAdjustmentEnabled = hasSelectedPhotos && hasWatermark && hasPhotos;
             
             if (isAdjustmentEnabled) {
@@ -2752,7 +2706,6 @@
                 enableControls(singleAdjustSliders, false);
             }
             
-            // 启用/禁用所有控件
             enableControls(singleAdjustControls, hasWatermark && hasPhotos);
         }
         
@@ -2773,12 +2726,10 @@
             
             if (!slider || !input || !valueSpan) return;
             
-            // 滑块事件
             slider.addEventListener('input', function() {
                 const value = this.value;
                 input.value = value;
                 
-                // 修改：位置滑块的显示值保留1位小数
                 if (sliderId === 'hPositionX' || sliderId === 'hPositionY' || 
                     sliderId === 'vPositionX' || sliderId === 'vPositionY') {
                     valueSpan.textContent = parseFloat(value).toFixed(1) + '%';
@@ -2797,7 +2748,6 @@
                 callback(value);
             });
             
-            // 输入框事件
             input.addEventListener('input', function() {
                 let value = parseFloat(this.value) || 0;
                 const min = parseFloat(slider.min);
@@ -2809,7 +2759,6 @@
                 this.value = value;
                 slider.value = value;
                 
-                // 修改：位置滑块的显示值保留1位小数
                 if (sliderId === 'hPositionX' || sliderId === 'hPositionY' || 
                     sliderId === 'vPositionX' || sliderId === 'vPositionY') {
                     valueSpan.textContent = value.toFixed(1) + '%';
@@ -2828,12 +2777,10 @@
                 callback(value);
             });
             
-            // 双击滑块重置为默认值
             slider.addEventListener('dblclick', function() {
                 slider.value = defaultValue;
                 input.value = defaultValue;
                 
-                // 修改：位置滑块的显示值保留1位小数
                 if (sliderId === 'hPositionX' || sliderId === 'hPositionY' || 
                     sliderId === 'vPositionX' || sliderId === 'vPositionY') {
                     valueSpan.textContent = defaultValue.toFixed(1) + '%';
@@ -2852,12 +2799,10 @@
                 callback(defaultValue);
             });
             
-            // 双击输入框重置为默认值
             input.addEventListener('dblclick', function() {
                 slider.value = defaultValue;
                 input.value = defaultValue;
                 
-                // 修改：位置滑块的显示值保留1位小数
                 if (sliderId === 'hPositionX' || sliderId === 'hPositionY' || 
                     sliderId === 'vPositionX' || sliderId === 'vPositionY') {
                     valueSpan.textContent = defaultValue.toFixed(1) + '%';
@@ -2882,19 +2827,16 @@
             const horizontalCanvas = document.getElementById('horizontalCanvas');
             const verticalCanvas = document.getElementById('verticalCanvas');
             
-            // 横图预览拖动
             horizontalCanvas.addEventListener('mousedown', startDragHorizontal);
             horizontalCanvas.addEventListener('mousemove', dragHorizontal);
             horizontalCanvas.addEventListener('mouseup', stopDragHorizontal);
             horizontalCanvas.addEventListener('mouseleave', stopDragHorizontal);
             
-            // 竖图预览拖动
             verticalCanvas.addEventListener('mousedown', startDragVertical);
             verticalCanvas.addEventListener('mousemove', dragVertical);
             verticalCanvas.addEventListener('mouseup', stopDragVertical);
             verticalCanvas.addEventListener('mouseleave', stopDragVertical);
             
-            // 触摸事件支持
             horizontalCanvas.addEventListener('touchstart', startDragHorizontalTouch);
             horizontalCanvas.addEventListener('touchmove', dragHorizontalTouch);
             horizontalCanvas.addEventListener('touchend', stopDragHorizontal);
@@ -3007,7 +2949,6 @@
             let processedCount = 0;
             const totalFiles = files.length;
             
-            // 保存当前选中的照片信息（修复问题5）
             const selectedPhotoInfos = [];
             selectedPhotos.forEach(index => {
                 const photo = photos[index];
@@ -3094,16 +3035,13 @@
         }
         
         function afterFilesProcessed(append, selectedPhotoInfos = []) {
-            // 对照片进行排序
             photos.sort((a, b) => {
                 return a.file.name.localeCompare(b.file.name, 'zh-CN', {numeric: true});
             });
             
-            // 重新匹配选中的照片（修复问题5）
             const newSelectedPhotos = new Set();
             if (selectedPhotoInfos.length > 0) {
                 photos.forEach((photo, index) => {
-                    // 查找是否有匹配的已选中照片
                     const isSelected = selectedPhotoInfos.some(info => 
                         info.name === photo.file.name && 
                         info.size === photo.file.size &&
@@ -3121,7 +3059,6 @@
             updateSinglePhotoSelector();
             updatePreviewSelectors();
             
-            // 修复：只有当有对应方向的照片时才设置预览图片
             const firstHorizontal = photos.find(p => p.orientation === 'horizontal');
             const firstVertical = photos.find(p => p.orientation === 'vertical');
             
@@ -3131,7 +3068,6 @@
                 document.getElementById('horizontalPreviewSelect').value = hIndex;
             } else {
                 currentHorizontalImage = null;
-                // 清空横图预览
                 const horizontalCanvas = document.getElementById('horizontalCanvas');
                 const ctx = horizontalCanvas.getContext('2d');
                 ctx.clearRect(0, 0, horizontalCanvas.width, horizontalCanvas.height);
@@ -3144,7 +3080,6 @@
                 document.getElementById('verticalPreviewSelect').value = vIndex;
             } else {
                 currentVerticalImage = null;
-                // 清空竖图预览
                 const verticalCanvas = document.getElementById('verticalCanvas');
                 const ctx = verticalCanvas.getContext('2d');
                 ctx.clearRect(0, 0, verticalCanvas.width, verticalCanvas.height);
@@ -3156,8 +3091,8 @@
             updateProcessButton();
             updateSelectAllCheckbox();
             updateWatermarkControlsState();
-            updateOrientationButtonsState(); // 更新方向按钮状态
-            updatePositionSliderRanges(); // 更新位置滑块范围
+            updateOrientationButtonsState();
+            updatePositionSliderRanges();
         }
         
         // 更新照片列表显示
@@ -3247,7 +3182,6 @@
                 }
             });
             
-            // 重新计算选中的照片索引
             const newSelectedPhotos = new Set();
             selectedPhotos.forEach(index => {
                 let newIndex = index;
@@ -3272,7 +3206,6 @@
             updatePreviewSelectors();
             
             if (photos.length > 0) {
-                // 修复：检查横图和竖图是否存在
                 const firstHorizontal = photos.find(p => p.orientation === 'horizontal');
                 const firstVertical = photos.find(p => p.orientation === 'vertical');
                 
@@ -3283,7 +3216,6 @@
                     currentVerticalImage = firstVertical || null;
                 }
                 
-                // 更新预览选择器
                 if (currentHorizontalImage) {
                     const hIndex = photos.indexOf(currentHorizontalImage);
                     if (hIndex !== -1) {
@@ -3299,7 +3231,7 @@
                 
                 updatePreviews();
                 updateSingleWatermarkPreview();
-                updatePositionSliderRanges(); // 更新位置滑块范围
+                updatePositionSliderRanges();
             } else {
                 currentHorizontalImage = null;
                 currentVerticalImage = null;
@@ -3321,7 +3253,7 @@
             updateProcessButton();
             updateSingleAdjustmentControlsState();
             updateWatermarkControlsState();
-            updateOrientationButtonsState(); // 更新方向按钮状态
+            updateOrientationButtonsState();
         }
         
         // 清空所有照片
@@ -3366,7 +3298,7 @@
             updateProcessButton();
             updateSingleAdjustmentControlsState();
             updateWatermarkControlsState();
-            updateOrientationButtonsState(); // 更新方向按钮状态
+            updateOrientationButtonsState();
         }
         
         // 在选择照片列表中选择所有横图
@@ -3423,7 +3355,6 @@
             
             singlePhotoSelector.innerHTML = html;
             
-            // 添加点击事件
             document.querySelectorAll('#singlePhotoSelector .photo-checkbox').forEach(checkbox => {
                 checkbox.addEventListener('change', function() {
                     const index = parseInt(this.getAttribute('data-index'));
@@ -3431,7 +3362,6 @@
                     
                     if (wasChecked) {
                         selectedPhotos.add(index);
-                        // 应用当前单独水印调节设置到新选择的照片
                         const photo = photos[index];
                         if (photo) {
                             photo.watermarkOpacity = settings.singleWatermarkOpacity;
@@ -3442,7 +3372,6 @@
                         }
                     } else {
                         selectedPhotos.delete(index);
-                        // 取消选择时重置该照片的设置
                         const photo = photos[index];
                         if (photo) {
                             photo.watermarkOpacity = 1.0;
@@ -3468,7 +3397,6 @@
                 });
             });
             
-            // 点击整行也可以切换选择
             document.querySelectorAll('#singlePhotoSelector .single-photo-item').forEach(item => {
                 item.addEventListener('click', function(e) {
                     if (e.target.type !== 'checkbox') {
@@ -3510,21 +3438,17 @@
                 return;
             }
             
-            // 清空当前选择
             selectedPhotos.clear();
             
-            // 根据方向选择照片
             photos.forEach((photo, index) => {
                 if (photo.orientation === orientation) {
                     selectedPhotos.add(index);
-                    // 应用当前单独水印调节设置到选择的照片
                     photo.watermarkOpacity = settings.singleWatermarkOpacity;
                     photo.watermarkBrightness = settings.singleWatermarkBrightness;
                     photo.watermarkContrast = settings.singleWatermarkContrast;
                     photo.watermarkSaturation = settings.singleWatermarkSaturation;
                     photo.watermarkExposure = settings.singleWatermarkExposure;
                 } else {
-                    // 未选择的照片重置设置
                     photo.watermarkOpacity = 1.0;
                     photo.watermarkBrightness = 100;
                     photo.watermarkContrast = 100;
@@ -3577,9 +3501,8 @@
                     updateSingleWatermarkPreview();
                     updateProcessButton();
                     
-                    // 关键修复：当用户选择了照片后才选择水印图片，这时单独水印调节设置区域的参数调节应该变为可用
                     updateWatermarkControlsState();
-                    updateOrientationButtonsState(); // 更新方向按钮状态
+                    updateOrientationButtonsState();
                 };
                 watermarkImage.onerror = function() {
                     alert('无法加载水印图片，请确保文件格式正确');
@@ -3600,7 +3523,6 @@
             horizontalSelect.innerHTML = '';
             verticalSelect.innerHTML = '';
             
-            // 修复：只显示对应方向的照片
             photos.forEach((photo, index) => {
                 const option = document.createElement('option');
                 option.value = index;
@@ -3613,13 +3535,11 @@
                 }
             });
             
-            // 修复：只有当有对应方向的照片时才设置选择器值
             if (currentHorizontalImage) {
                 const hIndex = photos.indexOf(currentHorizontalImage);
                 if (hIndex !== -1) {
                     horizontalSelect.value = hIndex;
                 } else {
-                    // 如果当前横图预览图片不在照片列表中，尝试找到第一张横图
                     const firstHorizontal = photos.find(p => p.orientation === 'horizontal');
                     if (firstHorizontal) {
                         const hIndex = photos.indexOf(firstHorizontal);
@@ -3646,7 +3566,6 @@
                 if (vIndex !== -1) {
                     verticalSelect.value = vIndex;
                 } else {
-                    // 如果当前竖图预览图片不在照片列表中，尝试找到第一张竖图
                     const firstVertical = photos.find(p => p.orientation === 'vertical');
                     if (firstVertical) {
                         const vIndex = photos.indexOf(firstVertical);
@@ -3673,37 +3592,30 @@
         function updatePreviews() {
             if (currentHorizontalImage) {
                 drawPreview('horizontal', currentHorizontalImage);
-                // 启用横图缩放控制
                 document.getElementById('horizontalZoom').disabled = false;
             } else {
-                // 如果没有横图，清空横图预览并禁用缩放控制
                 const horizontalCanvas = document.getElementById('horizontalCanvas');
                 const ctx = horizontalCanvas.getContext('2d');
                 ctx.clearRect(0, 0, horizontalCanvas.width, horizontalCanvas.height);
                 document.getElementById('horizontalDragHint').classList.remove('show');
                 document.getElementById('horizontalZoomHint').classList.remove('show');
                 document.getElementById('horizontalSize').textContent = '未选择';
-                // 禁用横图缩放控制
                 document.getElementById('horizontalZoom').disabled = true;
             }
             
             if (currentVerticalImage) {
                 drawPreview('vertical', currentVerticalImage);
-                // 启用竖图缩放控制
                 document.getElementById('verticalZoom').disabled = false;
             } else {
-                // 如果没有竖图，清空竖图预览并禁用缩放控制
                 const verticalCanvas = document.getElementById('verticalCanvas');
                 const ctx = verticalCanvas.getContext('2d');
                 ctx.clearRect(0, 0, verticalCanvas.width, verticalCanvas.height);
                 document.getElementById('verticalDragHint').classList.remove('show');
                 document.getElementById('verticalZoomHint').classList.remove('show');
                 document.getElementById('verticalSize').textContent = '未选择';
-                // 禁用竖图缩放控制
                 document.getElementById('verticalZoom').disabled = true;
             }
             
-            // 只有在有对应方向照片且有水印时才显示拖动提示
             if (horizontalTransform.scale > 1 && currentHorizontalImage && watermarkImage) {
                 document.getElementById('horizontalDragHint').classList.add('show');
             } else {
@@ -3726,12 +3638,10 @@
             const maxWidth = container.clientWidth;
             const maxHeight = container.clientHeight;
             
-            // 提高预览清晰度 - 使用双倍分辨率
             const scaleFactor = 2;
             canvas.width = maxWidth * scaleFactor;
             canvas.height = maxHeight * scaleFactor;
             
-            // 设置canvas显示尺寸为容器尺寸
             canvas.style.width = maxWidth + 'px';
             canvas.style.height = maxHeight + 'px';
             
@@ -3762,12 +3672,9 @@
             ctx.save();
             ctx.globalAlpha = settings.singleWatermarkOpacity;
             
-            // 修复：正确应用所有滤镜效果
             let filterString = `brightness(${settings.singleWatermarkBrightness}%) contrast(${settings.singleWatermarkContrast}%) saturate(${settings.singleWatermarkSaturation}%)`;
             
-            // 处理曝光度（曝光度也是通过亮度调整实现的）
             if (settings.singleWatermarkExposure !== 100) {
-                // 曝光度调整：计算最终亮度值
                 const exposureFactor = settings.singleWatermarkExposure / 100;
                 const finalBrightness = settings.singleWatermarkBrightness * exposureFactor;
                 filterString = `brightness(${finalBrightness}%) contrast(${settings.singleWatermarkContrast}%) saturate(${settings.singleWatermarkSaturation}%)`;
@@ -3778,7 +3685,6 @@
             ctx.drawImage(watermarkImage, x, y, displayWidth, displayHeight);
             ctx.restore();
             
-            // 绘制边框
             ctx.strokeStyle = '#27ae60';
             ctx.lineWidth = 2 * scaleFactor;
             ctx.setLineDash([5 * scaleFactor, 5 * scaleFactor]);
@@ -3797,12 +3703,10 @@
             const containerWidth = container.parentElement.clientWidth;
             const containerHeight = container.parentElement.clientHeight;
             
-            // 提高预览清晰度 - 使用双倍分辨率
             const scaleFactor = 2;
             canvas.width = containerWidth * scaleFactor;
             canvas.height = containerHeight * scaleFactor;
             
-            // 设置canvas显示尺寸为容器尺寸
             canvas.style.width = containerWidth + 'px';
             canvas.style.height = containerHeight + 'px';
             
@@ -3824,7 +3728,6 @@
                 totalHeight += borderTop + borderBottom;
             }
             
-            // 计算缩放比例时使用实际画布尺寸
             const scale = Math.min(
                 canvas.width / totalWidth,
                 canvas.height / totalHeight
@@ -3839,11 +3742,9 @@
             const totalWidthDisplay = displayWidth + borderLeftDisplay + borderRightDisplay;
             const totalHeightDisplay = displayHeight + borderTopDisplay + borderBottomDisplay;
             
-            // 修复：计算边框绘制位置
             const borderX = (canvas.width - totalWidthDisplay) / 2;
             const borderY = (canvas.height - totalHeightDisplay) / 2;
             
-            // 修复：计算照片绘制位置（在边框内部）
             const drawX = borderX + borderLeftDisplay;
             const drawY = borderY + borderTopDisplay;
             
@@ -3855,10 +3756,8 @@
                 
                 ctx.save();
                 
-                // 修复问题2：根据照片的实际分辨率计算圆角
-                // 使用设置的圆角像素值，但需要根据显示比例进行缩放
-                const borderRadiusPixels = settings.border.borderRadius; // 用户设置的圆角像素值
-                const borderRadiusDisplay = borderRadiusPixels * scale; // 显示时的圆角大小
+                const borderRadiusPixels = settings.border.borderRadius;
+                const borderRadiusDisplay = borderRadiusPixels * scale;
                 
                 if (borderRadiusDisplay > 0) {
                     ctx.beginPath();
@@ -3883,7 +3782,6 @@
                 const watermarkSize = orientation === 'horizontal' ? 
                     settings.horizontalWatermarkSize : settings.verticalWatermarkSize;
                 
-                // 修复：检查当前照片是否在单独调节列表中，如果是则使用照片自身的透明度，否则使用全局透明度
                 const photoIndex = photos.indexOf(photo);
                 let opacity;
                 let brightness, contrast, saturation, exposure;
@@ -3908,13 +3806,10 @@
                 
                 let watermarkX, watermarkY;
                 
-                // 修复：根据边框设置正确计算水印位置
                 if (settings.border.enabled) {
-                    // 当有边框时，水印可以放置在包括边框的整个区域
                     watermarkX = borderX + (position.x / 100) * totalWidthDisplay - watermarkDisplayWidth / 2;
                     watermarkY = borderY + (position.y / 100) * totalHeightDisplay - watermarkDisplayHeight / 2;
                 } else {
-                    // 当没有边框时，水印只能放置在照片区域内
                     const photoScale = Math.min(canvas.width / photo.width, canvas.height / photo.height);
                     const photoDisplayWidth = photo.width * photoScale;
                     const photoDisplayHeight = photo.height * photoScale;
@@ -3925,19 +3820,15 @@
                     watermarkY = photoDrawY + (position.y / 100) * photoDisplayHeight - watermarkDisplayHeight / 2;
                 }
                 
-                // 确保水印不会超出画布边界
                 watermarkX = Math.max(0, Math.min(watermarkX, canvas.width - watermarkDisplayWidth));
                 watermarkY = Math.max(0, Math.min(watermarkY, canvas.height - watermarkDisplayHeight));
                 
                 ctx.save();
                 ctx.globalAlpha = opacity;
                 
-                // 修复：正确应用所有滤镜效果
                 let filterString = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%)`;
                 
-                // 处理曝光度（曝光度也是通过亮度调整实现的）
                 if (exposure !== 100) {
-                    // 曝光度调整：计算最终亮度值
                     const exposureFactor = exposure / 100;
                     const finalBrightness = brightness * exposureFactor;
                     filterString = `brightness(${finalBrightness}%) contrast(${contrast}%) saturate(${saturation}%)`;
@@ -3948,9 +3839,8 @@
                 ctx.drawImage(watermarkImage, watermarkX, watermarkY, watermarkDisplayWidth, watermarkDisplayHeight);
                 ctx.restore();
                 
-                // 绘制水印边框
                 ctx.strokeStyle = '#3498db';
-                ctx.lineWidth = 2 * (scaleFactor / 2); // 根据缩放因子调整线宽
+                ctx.lineWidth = 2 * (scaleFactor / 2);
                 ctx.setLineDash([5 * scaleFactor, 5 * scaleFactor]);
                 ctx.strokeRect(watermarkX, watermarkY, watermarkDisplayWidth, watermarkDisplayHeight);
                 ctx.setLineDash([]);
@@ -3974,7 +3864,6 @@
                 }
             });
             
-            // 修复：立即更新所有预览
             updatePreviews();
         }
         
@@ -3995,7 +3884,6 @@
                 }
             });
             
-            // 重置滑块值
             document.getElementById('singleWatermarkOpacity').value = 100;
             document.getElementById('singleWatermarkOpacityInput').value = 100;
             document.getElementById('singleOpacityValue').textContent = '100%';
@@ -4016,39 +3904,48 @@
             document.getElementById('singleWatermarkExposureInput').value = 100;
             document.getElementById('singleExposureValue').textContent = '100%';
             
-            // 重置设置
             settings.singleWatermarkOpacity = 1.0;
             settings.singleWatermarkBrightness = 100;
             settings.singleWatermarkContrast = 100;
             settings.singleWatermarkSaturation = 100;
             settings.singleWatermarkExposure = 100;
             
-            // 更新所有预览
             updatePreviews();
             updateSingleWatermarkPreview();
         }
         
-        // 更新处理按钮状态
+        // 更新处理按钮状态 (已修改：支持边框开启无水印)
         function updateProcessButton() {
             const processBtn = document.getElementById('processBtn');
             const hasPhotos = photos.length > 0;
             const hasWatermark = watermarkImage !== null;
             
-            processBtn.disabled = !(hasPhotos && hasWatermark);
+            // 修改：有水印 或 (边框开启且有照片) 则启用按钮
+            processBtn.disabled = !(hasPhotos && (hasWatermark || settings.border.enabled));
             
             if (!hasPhotos) {
                 processBtn.title = '请先选择照片';
-            } else if (!hasWatermark) {
-                processBtn.title = '请先选择水印图片';
-            } else {
+            } else if (!hasWatermark && !settings.border.enabled) {
+                processBtn.title = '请选择水印图片或开启边框';
+            } else if (hasWatermark && settings.border.enabled) {
+                processBtn.title = '处理并下载带水印和边框的照片';
+            } else if (hasWatermark && !settings.border.enabled) {
                 processBtn.title = '处理并下载带水印的照片';
+            } else if (!hasWatermark && settings.border.enabled) {
+                processBtn.title = '处理并下载带边框的照片（无水印）';
+            } else {
+                processBtn.title = '处理';
             }
         }
         
-        // 处理所有图片并打包下载 - 修复：根据边框设置计算水印位置，使用原照片分辨率
+        // 处理所有图片并打包下载 - 修复：根据边框设置计算水印位置，无水印时只加边框
         async function processImages() {
-            if (photos.length === 0 || !watermarkImage) {
-                alert('请先选择照片和水印图片');
+            if (photos.length === 0) {
+                alert('请先选择照片');
+                return;
+            }
+            if (!watermarkImage && !settings.border.enabled) {
+                alert('请选择水印图片或开启边框以生成图片');
                 return;
             }
             
@@ -4080,7 +3977,6 @@
                 try {
                     let canvas, ctx;
                     
-                    // 修改：使用原照片分辨率，如果用户加了边框，则最终文件分辨率为原照片分辨率加上四边的边框
                     if (settings.border.enabled) {
                         const borderedWidth = photo.width + settings.border.left + settings.border.right;
                         const borderedHeight = photo.height + settings.border.top + settings.border.bottom;
@@ -4096,8 +3992,6 @@
                         
                         ctx.save();
                         
-                        // 修复问题2：在最终生成时使用设置的圆角像素值
-                        // 每张照片都使用相同的圆角像素值（80）
                         if (settings.border.borderRadius > 0) {
                             ctx.beginPath();
                             ctx.roundRect(
@@ -4113,7 +4007,6 @@
                         ctx.drawImage(photo.img, settings.border.left, settings.border.top, photo.width, photo.height);
                         ctx.restore();
                     } else {
-                        // 没有边框时，直接使用原照片分辨率
                         canvas = document.createElement('canvas');
                         canvas.width = photo.width;
                         canvas.height = photo.height;
@@ -4122,69 +4015,67 @@
                         ctx.drawImage(photo.img, 0, 0, photo.width, photo.height);
                     }
                     
-                    const orientation = photo.orientation;
-                    const position = orientation === 'horizontal' ? horizontalPosition : verticalPosition;
-                    
-                    const watermarkSize = orientation === 'horizontal' ? 
-                        settings.horizontalWatermarkSize : settings.verticalWatermarkSize;
-                    
-                    const watermarkWidth = (watermarkSize / 100) * photo.width;
-                    const watermarkHeight = (watermarkImage.height / watermarkImage.width) * watermarkWidth;
-                    
-                    let watermarkX, watermarkY;
-                    
-                    // 修复：根据边框设置计算水印位置
-                    if (settings.border.enabled) {
-                        const borderedWidth = photo.width + settings.border.left + settings.border.right;
-                        const borderedHeight = photo.height + settings.border.top + settings.border.bottom;
+                    // 如果有水印，则绘制水印
+                    if (watermarkImage) {
+                        const orientation = photo.orientation;
+                        const position = orientation === 'horizontal' ? horizontalPosition : verticalPosition;
                         
-                        watermarkX = (position.x / 100) * borderedWidth - watermarkWidth / 2;
-                        watermarkY = (position.y / 100) * borderedHeight - watermarkHeight / 2;
-                    } else {
-                        watermarkX = (position.x / 100) * photo.width - watermarkWidth / 2;
-                        watermarkY = (position.y / 100) * photo.height - watermarkHeight / 2;
+                        const watermarkSize = orientation === 'horizontal' ? 
+                            settings.horizontalWatermarkSize : settings.verticalWatermarkSize;
+                        
+                        const watermarkWidth = (watermarkSize / 100) * photo.width;
+                        const watermarkHeight = (watermarkImage.height / watermarkImage.width) * watermarkWidth;
+                        
+                        let watermarkX, watermarkY;
+                        
+                        if (settings.border.enabled) {
+                            const borderedWidth = photo.width + settings.border.left + settings.border.right;
+                            const borderedHeight = photo.height + settings.border.top + settings.border.bottom;
+                            
+                            watermarkX = (position.x / 100) * borderedWidth - watermarkWidth / 2;
+                            watermarkY = (position.y / 100) * borderedHeight - watermarkHeight / 2;
+                        } else {
+                            watermarkX = (position.x / 100) * photo.width - watermarkWidth / 2;
+                            watermarkY = (position.y / 100) * photo.height - watermarkHeight / 2;
+                        }
+                        
+                        watermarkX = Math.max(0, Math.min(watermarkX, canvas.width - watermarkWidth));
+                        watermarkY = Math.max(0, Math.min(watermarkY, canvas.height - watermarkHeight));
+                        
+                        const photoIndex = photos.indexOf(photo);
+                        let opacity;
+                        let brightness, contrast, saturation, exposure;
+                        
+                        if (selectedPhotos.has(photoIndex)) {
+                            opacity = photo.watermarkOpacity;
+                            brightness = photo.watermarkBrightness;
+                            contrast = photo.watermarkContrast;
+                            saturation = photo.watermarkSaturation;
+                            exposure = photo.watermarkExposure;
+                        } else {
+                            opacity = orientation === 'horizontal' ? 
+                                settings.horizontalWatermarkOpacity : settings.verticalWatermarkOpacity;
+                            brightness = 100;
+                            contrast = 100;
+                            saturation = 100;
+                            exposure = 100;
+                        }
+                        
+                        ctx.save();
+                        ctx.globalAlpha = opacity;
+                        
+                        let filterString = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%)`;
+                        
+                        if (exposure !== 100) {
+                            const exposureFactor = exposure / 100;
+                            const finalBrightness = brightness * exposureFactor;
+                            filterString = `brightness(${finalBrightness}%) contrast(${contrast}%) saturate(${saturation}%)`;
+                        }
+                        
+                        ctx.filter = filterString;
+                        ctx.drawImage(watermarkImage, watermarkX, watermarkY, watermarkWidth, watermarkHeight);
+                        ctx.restore();
                     }
-                    
-                    // 确保水印不会超出画布边界
-                    watermarkX = Math.max(0, Math.min(watermarkX, canvas.width - watermarkWidth));
-                    watermarkY = Math.max(0, Math.min(watermarkY, canvas.height - watermarkHeight));
-                    
-                    // 修复：在最终处理时也要根据照片是否单独调节来选择透明度
-                    const photoIndex = photos.indexOf(photo);
-                    let opacity;
-                    let brightness, contrast, saturation, exposure;
-                    
-                    if (selectedPhotos.has(photoIndex)) {
-                        opacity = photo.watermarkOpacity;
-                        brightness = photo.watermarkBrightness;
-                        contrast = photo.watermarkContrast;
-                        saturation = photo.watermarkSaturation;
-                        exposure = photo.watermarkExposure;
-                    } else {
-                        opacity = orientation === 'horizontal' ? 
-                            settings.horizontalWatermarkOpacity : settings.verticalWatermarkOpacity;
-                        brightness = 100;
-                        contrast = 100;
-                        saturation = 100;
-                        exposure = 100;
-                    }
-                    
-                    ctx.save();
-                    ctx.globalAlpha = opacity;
-                    
-                    // 修复：正确应用所有滤镜效果
-                    let filterString = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%)`;
-                    
-                    // 处理曝光度
-                    if (exposure !== 100) {
-                        const exposureFactor = exposure / 100;
-                        const finalBrightness = brightness * exposureFactor;
-                        filterString = `brightness(${finalBrightness}%) contrast(${contrast}%) saturate(${saturation}%)`;
-                    }
-                    
-                    ctx.filter = filterString;
-                    ctx.drawImage(watermarkImage, watermarkX, watermarkY, watermarkWidth, watermarkHeight);
-                    ctx.restore();
                     
                     const blob = await new Promise(resolve => {
                         canvas.toBlob(resolve, 'image/jpeg', 1.0);
